@@ -13,15 +13,19 @@
 SDL_Window*     window;
 SDL_GLContext   context;
 
+GLuint shaderProgram;
+
 void createContext();
 void compileShaders();
+void createVertexBuffer();
 
 int main(int argc, char *argv[]) 
 {
     printf("wyskr v0.0.1\n");
 
     createContext();
-    compileShaders();
+    createVertexBuffer();
+    //compileShaders();
 
     // event loop
     SDL_Event windowEvent;
@@ -32,6 +36,11 @@ int main(int argc, char *argv[])
             if (windowEvent.type == SDL_QUIT)
                 break;
         }
+
+        glClearColor(1.0f, 0.0f, 0.0f, 1.0f);
+        glClear(GL_COLOR_BUFFER_BIT);
+
+        glDrawArrays(GL_TRIANGLES, 0, 3);
 
         SDL_GL_SwapWindow(window);
     }
@@ -65,19 +74,45 @@ void createContext()
 
     glewExperimental = GL_TRUE;
     glewInit();
+}
 
-    GLuint vertexBuffer;
-    glGenBuffers(1, &vertexBuffer);
+void createVertexBuffer()
+{
+    // vertex array object
+    GLuint vao;
+    glGenVertexArrays(1, &vao);
+    glBindVertexArray(vao);
 
-    printf("%u\n", vertexBuffer);
+    // vertex buffer object
+    GLuint vbo;
+    glGenBuffers(1, &vbo);
+    GLfloat vertices[] = 
+    {
+         0.0f,  0.5f,    
+         0.5f, -0.5f,    
+        -0.5f, -0.5f
+    };
+    glBindBuffer(GL_ARRAY_BUFFER, vbo);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+
+    compileShaders();
+
+    // get reference to 'position' input of vertex shader
+    GLint posAttrib = glGetAttribLocation(shaderProgram, "position");
+
+    // specify how vertex data is retrieved from the array
+    glVertexAttribPointer(posAttrib, 2, GL_FLOAT, GL_FALSE, 0, 0);
+
+    glEnableVertexAttribArray(posAttrib);
 }
 
 void compileShaders()
 {
     printf("compiling shaders...\n");
-    GLuint program = LoadShader(
+    shaderProgram = LoadShader(
         "src/shaders/shader.vert", 
         "src/shaders/shader.frag");
 
-    glUseProgram(program);
+    glUseProgram(shaderProgram);
 }
+

@@ -78,6 +78,7 @@ GLuint LoadShader(const char* vertexPath, const char* fragmentPath)
     printf("linking program...\n");
     GLuint program = glCreateProgram();
     glAttachShader(program, vertShader);
+    glAttachShader(program, fragShader);
 
     glLinkProgram(program);
 
@@ -90,7 +91,11 @@ GLuint LoadShader(const char* vertexPath, const char* fragmentPath)
         std::cout << &programError[0] << std::endl;
     }
 
+    glDetachShader(program, vertShader);
+    glDetachShader(program, fragShader);
+
     glDeleteShader(vertShader);
+    glDeleteShader(fragShader);
 
     return program;
 }
