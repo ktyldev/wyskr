@@ -7,5 +7,5 @@ A lightweight OpenGL/C++ 3D engine with the goal of simulating a basic solar sys
 storing todos here temporarily until i can be bothered to organise a trello
 
 *   handle fullscreen window
-*   handle build failure in makefile
+
 

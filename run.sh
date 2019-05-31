@@ -1,11 +1,11 @@
 echo "building wyskr..."
 echo ""
 
-# todo: check for failure
-make
+# run on successful build
+if make ; then
+    echo ""
+    echo "build succeeded!"
+    echo ""
 
-echo ""
-echo "running wyskr..."
-echo ""
-
-./bin/wyskr
+    ./bin/wyskr
+fi
