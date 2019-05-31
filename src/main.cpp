@@ -1,4 +1,8 @@
 #include "stdio.h"
+#include <string>
+#include <fstream>
+
+#include "glshader.hpp"
 
 #define GLEW_STATIC
 #include <GL/glew.h>
@@ -10,12 +14,14 @@ SDL_Window*     window;
 SDL_GLContext   context;
 
 void createContext();
+void compileShaders();
 
 int main(int argc, char *argv[]) 
 {
     printf("wyskr v0.0.1\n");
 
     createContext();
+    compileShaders();
 
     // event loop
     SDL_Event windowEvent;
@@ -64,4 +70,14 @@ void createContext()
     glGenBuffers(1, &vertexBuffer);
 
     printf("%u\n", vertexBuffer);
+}
+
+void compileShaders()
+{
+    printf("compiling shaders...\n");
+    GLuint program = LoadShader(
+        "src/shaders/shader.vert", 
+        "src/shaders/shader.frag");
+
+    glUseProgram(program);
 }
