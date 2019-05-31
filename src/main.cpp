@@ -1,33 +1,21 @@
 #include "stdio.h"
 
+#define GLEW_STATIC
+#include <GL/glew.h>
+
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_opengl.h>
 
+SDL_Window*     window;
+SDL_GLContext   context;
+
+void createContext();
+
 int main(int argc, char *argv[]) 
 {
-    printf("hello, world!\n");
+    printf("wyskr v0.0.1\n");
 
-    // load SDL modules
-    SDL_Init(SDL_INIT_VIDEO);
-
-    //
-    // create opengl context
-    //
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
-    // stencil buffer
-    SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, 8);
-
-    SDL_Window* window = SDL_CreateWindow(
-            "wyskr", 
-            SDL_WINDOWPOS_UNDEFINED, 
-            SDL_WINDOWPOS_UNDEFINED, 
-            800, 
-            600, 
-            SDL_WINDOW_OPENGL);
-
-    SDL_GLContext context = SDL_GL_CreateContext(window);
+    createContext();
 
     // event loop
     SDL_Event windowEvent;
@@ -47,4 +35,33 @@ int main(int argc, char *argv[])
     SDL_Quit();
 
     return 0;
+}
+
+void createContext()
+{
+    // load SDL modules
+    SDL_Init(SDL_INIT_VIDEO);
+
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
+    SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, 8);
+
+    window = SDL_CreateWindow(
+        "wyskr", 
+        SDL_WINDOWPOS_UNDEFINED, 
+        SDL_WINDOWPOS_UNDEFINED, 
+        800, 
+        600, 
+        SDL_WINDOW_OPENGL);
+
+    context = SDL_GL_CreateContext(window);
+
+    glewExperimental = GL_TRUE;
+    glewInit();
+
+    GLuint vertexBuffer;
+    glGenBuffers(1, &vertexBuffer);
+
+    printf("%u\n", vertexBuffer);
 }
