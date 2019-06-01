@@ -4,6 +4,7 @@
 #include <chrono>
 
 #include "glshader.hpp"
+#include "vertex.hpp"
 
 #define GLEW_STATIC
 #include <GL/glew.h>
@@ -86,13 +87,13 @@ void createContext()
 
 void createVertexBuffer()
 {
-    GLfloat vertices[] = 
+    VertexColour vertices[] = 
     {
-    //  x       y       colour
-        -0.5f,  0.5f,   1.0f, 0.0f, 0.0f, // top left
-         0.5f,  0.5f,   0.0f, 1.0f, 0.0f, // top right   
-         0.5f, -0.5f,   0.0f, 0.0f, 1.0f, // bottom right
-        -0.5f, -0.5f,   1.0f, 1.0f, 1.0f, // bottom left   
+    //              x       y               colour
+        { glm::vec2(-0.5f,  0.5f), glm::vec3(1.0f, 0.0f, 0.0f) }, // top left
+        { glm::vec2( 0.5f,  0.5f), glm::vec3(0.0f, 1.0f, 0.0f) }, // top right   
+        { glm::vec2( 0.5f, -0.5f), glm::vec3(0.0f, 0.0f, 1.0f) }, // bottom right
+        { glm::vec2(-0.5f, -0.5f), glm::vec3(1.0f, 1.0f, 1.0f) }, // bottom left  
     };
 
     // vertex array object

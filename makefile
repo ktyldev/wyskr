@@ -7,10 +7,10 @@ CC = g++
 LIBS = -lSDL2 -lGLEW -lGL  
 CFLAGS = -I $(INCLUDE)
 
-_DEPS = glshader.hpp
+_DEPS = glshader.hpp vertex.hpp
 DEPS = $(patsubst %,$(INCLUDE)/%,$(_DEPS))
 
-_OBJS = main.o glshader.o
+_OBJS = framework.o glshader.o
 OBJS = $(patsubst %,$(OBJ)/%,$(_OBJS))
 
 TARGET = $(BIN)/wyskr
