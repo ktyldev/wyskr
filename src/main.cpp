@@ -19,7 +19,9 @@ GLuint shaderProgram;
 void createContext();
 void compileShaders();
 void setShaderAttributes();
+
 void createVertexBuffer();
+void createElementBuffer();
 
 int main(int argc, char *argv[]) 
 {
@@ -27,6 +29,7 @@ int main(int argc, char *argv[])
 
     createContext();
     createVertexBuffer();
+    createElementBuffer();
 
     compileShaders();
     setShaderAttributes();
@@ -44,7 +47,8 @@ int main(int argc, char *argv[])
         glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
-        glDrawArrays(GL_TRIANGLES, 0, 3);
+        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+        //glDrawArrays(GL_TRIANGLES, 0, 6);
 
         SDL_GL_SwapWindow(window);
     }
@@ -82,6 +86,15 @@ void createContext()
 
 void createVertexBuffer()
 {
+    GLfloat vertices[] = 
+    {
+    //  x       y       colour
+        -0.5f,  0.5f,   1.0f, 0.0f, 0.0f, // top left
+         0.5f,  0.5f,   0.0f, 1.0f, 0.0f, // top right   
+         0.5f, -0.5f,   0.0f, 0.0f, 1.0f, // bottom right
+        -0.5f, -0.5f,   1.0f, 1.0f, 1.0f, // bottom left   
+    };
+
     // vertex array object
     GLuint vao;
     glGenVertexArrays(1, &vao);
@@ -90,14 +103,24 @@ void createVertexBuffer()
     // vertex buffer object
     GLuint vbo;
     glGenBuffers(1, &vbo);
-    GLfloat vertices[] = 
-    {
-         0.0f,  0.5f, 1.0f, 0.0f, 0.0f, // red
-         0.5f, -0.5f, 0.0f, 1.0f, 0.0f, // green   
-        -0.5f, -0.5f, 0.0f, 0.0f, 1.0f, // blue
-    };
     glBindBuffer(GL_ARRAY_BUFFER, vbo);
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+}
+
+void createElementBuffer()
+{
+    GLuint elements[] = 
+    {
+        0, 1, 2,
+        2, 3, 0
+    };
+
+    // element buffer object
+    GLuint ebo;
+    glGenBuffers(1, &ebo);
+
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(elements), elements, GL_STATIC_DRAW);
 }
 
 void setShaderAttributes()
