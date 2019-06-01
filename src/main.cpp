@@ -1,6 +1,7 @@
 #include "stdio.h"
 #include <string>
 #include <fstream>
+#include <chrono>
 
 #include "glshader.hpp"
 
@@ -17,6 +18,7 @@ GLuint shaderProgram;
 
 void createContext();
 void compileShaders();
+void setShaderAttributes();
 void createVertexBuffer();
 
 int main(int argc, char *argv[]) 
@@ -25,7 +27,9 @@ int main(int argc, char *argv[])
 
     createContext();
     createVertexBuffer();
-    //compileShaders();
+
+    compileShaders();
+    setShaderAttributes();
 
     // event loop
     SDL_Event windowEvent;
@@ -37,7 +41,7 @@ int main(int argc, char *argv[])
                 break;
         }
 
-        glClearColor(1.0f, 0.0f, 0.0f, 1.0f);
+        glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
         glDrawArrays(GL_TRIANGLES, 0, 3);
@@ -88,22 +92,37 @@ void createVertexBuffer()
     glGenBuffers(1, &vbo);
     GLfloat vertices[] = 
     {
-         0.0f,  0.5f,    
-         0.5f, -0.5f,    
-        -0.5f, -0.5f
+         0.0f,  0.5f, 1.0f, 0.0f, 0.0f, // red
+         0.5f, -0.5f, 0.0f, 1.0f, 0.0f, // green   
+        -0.5f, -0.5f, 0.0f, 0.0f, 1.0f, // blue
     };
     glBindBuffer(GL_ARRAY_BUFFER, vbo);
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+}
 
-    compileShaders();
-
+void setShaderAttributes()
+{
+    int stride = 5 * sizeof(float);
     // get reference to 'position' input of vertex shader
     GLint posAttrib = glGetAttribLocation(shaderProgram, "position");
-
-    // specify how vertex data is retrieved from the array
-    glVertexAttribPointer(posAttrib, 2, GL_FLOAT, GL_FALSE, 0, 0);
-
     glEnableVertexAttribArray(posAttrib);
+    glVertexAttribPointer(
+        posAttrib, 
+        2, 
+        GL_FLOAT, 
+        GL_FALSE, 
+        stride, 
+        0);
+
+    GLint colAttrib = glGetAttribLocation(shaderProgram, "colour");
+    glEnableVertexAttribArray(colAttrib);
+    glVertexAttribPointer(
+        colAttrib,
+        3,
+        GL_FLOAT,
+        GL_FALSE,
+        stride,
+        (void*)(2 * sizeof(float))); // offset red position
 }
 
 void compileShaders()
