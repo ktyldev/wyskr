@@ -1,3 +1,8 @@
+#define GLEW_STATIC
+#include <GL/glew.h>
+
+#include "framework.hpp"
+
 #include "stdio.h"
 #include <string>
 #include <fstream>
@@ -6,35 +11,59 @@
 #include "glshader.hpp"
 #include "vertex.hpp"
 
-#define GLEW_STATIC
-#include <GL/glew.h>
-
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_opengl.h>
-
-SDL_Window*     window;
-SDL_GLContext   context;
-
+// TODO: factor these out to renderer
 GLuint shaderProgram;
 
-void createContext();
 void compileShaders();
 void setShaderAttributes();
 
 void createVertexBuffer();
 void createElementBuffer();
 
+#define DEFAULT_WIDTH   800
+#define DEFAULT_HEIGHT  600
+
+Framework framework_;
+
+Framework::Framework() : Framework(DEFAULT_WIDTH, DEFAULT_HEIGHT)
+{
+}
+
+Framework::Framework(unsigned int width, unsigned int height) :
+    width_(width),
+    height_(height)
+{
+    framework_ = *this; 
+    printf("wyskr v0.0.1\n");
+}
+
+Framework::~Framework() 
+{
+}
+
 int main(int argc, char *argv[]) 
 {
-    printf("wyskr v0.0.1\n");
+    framework_.Run();
+}
 
-    createContext();
+int Framework::Run()
+{
+    bool success = Initialise();
+
+    // TODO: factor these out to renderer
     createVertexBuffer();
     createElementBuffer();
-
     compileShaders();
     setShaderAttributes();
 
+    if (!success)
+        return -1;
+
+    return MainLoop();
+}
+
+int Framework::MainLoop()
+{
     // event loop
     SDL_Event windowEvent;
     while (true)
@@ -45,23 +74,36 @@ int main(int argc, char *argv[])
                 break;
         }
 
-        glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT);
-
-        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-        //glDrawArrays(GL_TRIANGLES, 0, 6);
-
-        SDL_GL_SwapWindow(window);
+        Render();
     }
 
     // clean up
-    SDL_GL_DeleteContext(context);
+    SDL_GL_DeleteContext(context_);
     SDL_Quit();
 
     return 0;
 }
 
-void createContext()
+void Framework::Render()
+{
+    // TODO: set background colour in a better way
+    glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT);
+
+    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+    //glDrawArrays(GL_TRIANGLES, 0, 6);
+
+    SDL_GL_SwapWindow(window_);
+}
+
+bool Framework::Initialise()
+{
+    CreateContext();
+
+    return true;
+}
+
+void Framework::CreateContext()
 {
     // load SDL modules
     SDL_Init(SDL_INIT_VIDEO);
@@ -71,7 +113,7 @@ void createContext()
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
     SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, 8);
 
-    window = SDL_CreateWindow(
+    window_ = SDL_CreateWindow(
         "wyskr", 
         SDL_WINDOWPOS_UNDEFINED, 
         SDL_WINDOWPOS_UNDEFINED, 
@@ -79,7 +121,7 @@ void createContext()
         600, 
         SDL_WINDOW_OPENGL);
 
-    context = SDL_GL_CreateContext(window);
+    context_ = SDL_GL_CreateContext(window_);
 
     glewExperimental = GL_TRUE;
     glewInit();

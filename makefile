@@ -7,7 +7,7 @@ CC = g++
 LIBS = -lSDL2 -lGLEW -lGL  
 CFLAGS = -I $(INCLUDE)
 
-_DEPS = glshader.hpp vertex.hpp
+_DEPS = glshader.hpp vertex.hpp framework.hpp
 DEPS = $(patsubst %,$(INCLUDE)/%,$(_DEPS))
 
 _OBJS = framework.o glshader.o
