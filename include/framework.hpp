@@ -3,6 +3,8 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_opengl.h>
 
+#include "testrenderer.hpp"
+
 class Framework
 {
 public:
@@ -20,9 +22,10 @@ public:
 private:
     SDL_Window*     window_;
     SDL_GLContext   context_;
+    unsigned int    width_;
+    unsigned int    height_;
 
-    unsigned int width_;
-    unsigned int height_;
+    TestRenderer    renderer_;
 
     int MainLoop();
     void CreateContext();
