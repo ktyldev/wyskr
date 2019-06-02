@@ -23,6 +23,11 @@ bool TestRenderer::Initialise()
     return true;
 }
 
+void TestRenderer::Render()
+{
+    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+}
+
 void TestRenderer::SetColour(Colour& colour)
 {
     colour_ = colour.vec3();

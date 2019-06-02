@@ -78,10 +78,8 @@ bool Framework::Initialise()
 void Framework::Render()
 {
     ClearBackground();
-    glClear(GL_COLOR_BUFFER_BIT);
 
-    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-    //glDrawArrays(GL_TRIANGLES, 0, 6);
+    renderer_.Render();
 
     SDL_GL_SwapWindow(window_);
 }
@@ -90,6 +88,7 @@ void Framework::ClearBackground()
 {
     Colour c = backgroundColour_;
     glClearColor(c.r(), c.g(), c.b(), 0.0f);
+    glClear(GL_COLOR_BUFFER_BIT);
 }
 
 void Framework::CreateContext()
@@ -106,8 +105,8 @@ void Framework::CreateContext()
         "wyskr", 
         SDL_WINDOWPOS_UNDEFINED, 
         SDL_WINDOWPOS_UNDEFINED, 
-        800, 
-        600, 
+        DEFAULT_WIDTH, 
+        DEFAULT_HEIGHT, 
         SDL_WINDOW_OPENGL);
 
     context_ = SDL_GL_CreateContext(window_);

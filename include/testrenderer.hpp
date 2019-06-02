@@ -11,6 +11,7 @@ public:
     ~TestRenderer();
 
     bool Initialise();
+    void Render();
 
     void SetColour(Colour& colour);
 
