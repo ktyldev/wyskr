@@ -6,8 +6,12 @@ A lightweight OpenGL/C++ 3D engine with the goal of simulating a basic solar sys
 
 storing todos here temporarily until i can be bothered to organise a trello
 
+*   wrap calls to std::chrono
+*   add update event
 *   handle fullscreen window
 *   use cmake to handle cross-platform development
+
+
 
 
 

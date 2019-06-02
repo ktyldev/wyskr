@@ -54,6 +54,7 @@ int Framework::MainLoop()
                 break;
         }
 
+        Update();
         Render();
     }
 
@@ -73,6 +74,11 @@ bool Framework::Initialise()
     bool success = renderer_.Initialise();
 
     return success;
+}
+
+void Framework::Update()
+{
+    renderer_.Update();
 }
 
 void Framework::Render()

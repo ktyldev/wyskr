@@ -1,8 +1,12 @@
 #include "testrenderer.hpp"
 
+#include <ctime>
 #include <vector>
 #include <iostream>
 
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 TestRenderer::TestRenderer()
 {
@@ -20,7 +24,26 @@ bool TestRenderer::Initialise()
     CompileShaders();
     SetShaderAttributes();
 
+    start_ = std::chrono::high_resolution_clock::now();
+
+    // temp update code
+
     return true;
+}
+
+void TestRenderer::Update()
+{
+    // temp update code
+    auto now = std::chrono::high_resolution_clock::now();
+    time_ = std::chrono::duration_cast<std::chrono::duration<float>>(now - start_).count();
+
+    float turnSpeed = 50.0f;
+
+    glm::mat4 trans = glm::mat4(1.0f);
+    trans = glm::rotate(trans, glm::radians(time_ * turnSpeed), glm::vec3(0.0f, 0.0f, 1.0f)); 
+    glm::vec4 result = trans * glm::vec4(1.0f, 0.0f, 0.0f, 1.0f);
+    GLint uniTrans = glGetUniformLocation(shaderProgram_, "trans");
+    glUniformMatrix4fv(uniTrans, 1, GL_FALSE, glm::value_ptr(trans));
 }
 
 void TestRenderer::Render()
