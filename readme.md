@@ -10,9 +10,4 @@ storing todos here temporarily until i can be bothered to organise a trello
 *   add update event
 *   handle fullscreen window
 *   use cmake to handle cross-platform development
-
-
-
-
-
-
+*   check for dependencies on startup
