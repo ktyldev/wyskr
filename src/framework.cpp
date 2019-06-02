@@ -1,5 +1,3 @@
-#include "core.hpp"
-
 #include "framework.hpp"
 
 #include "stdio.h"
@@ -66,10 +64,20 @@ int Framework::MainLoop()
     return 0;
 }
 
+bool Framework::Initialise()
+{
+    CreateContext();
+
+    Colour c(1.0f, 0.0f, 0.0f);
+    renderer_.SetColour(c);
+    bool success = renderer_.Initialise();
+
+    return success;
+}
+
 void Framework::Render()
 {
-    // TODO: set background colour in a better way
-    glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+    ClearBackground();
     glClear(GL_COLOR_BUFFER_BIT);
 
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
@@ -78,12 +86,10 @@ void Framework::Render()
     SDL_GL_SwapWindow(window_);
 }
 
-bool Framework::Initialise()
+void Framework::ClearBackground()
 {
-    CreateContext();
-
-    bool success = renderer_.Initialise();
-    return success;
+    Colour c = backgroundColour_;
+    glClearColor(c.r(), c.g(), c.b(), 0.0f);
 }
 
 void Framework::CreateContext()

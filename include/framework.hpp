@@ -1,5 +1,7 @@
 #pragma once
 
+#include "core.hpp"
+
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_opengl.h>
 
@@ -25,8 +27,11 @@ private:
     unsigned int    width_;
     unsigned int    height_;
 
+    // misc :)
     TestRenderer    renderer_;
+    Colour          backgroundColour_;
 
     int MainLoop();
     void CreateContext();
+    void ClearBackground();
 };

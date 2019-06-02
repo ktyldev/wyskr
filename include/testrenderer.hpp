@@ -12,10 +12,13 @@ public:
 
     bool Initialise();
 
+    void SetColour(Colour& colour);
+
 private:
     std::string     vsPath_;
     std::string     fsPath_;
     GLuint          shaderProgram_;
+    glm::vec3       colour_;
 
     GLuint LoadShaders(const char* vertexPath, const char* fragmentPath);
     void CompileShaders();

@@ -23,6 +23,11 @@ bool TestRenderer::Initialise()
     return true;
 }
 
+void TestRenderer::SetColour(Colour& colour)
+{
+    colour_ = colour.vec3();
+}
+
 GLuint TestRenderer::LoadShaders(const char* vertexPath, const char* fragmentPath)
 {
     printf("reading shaders...\n");
@@ -133,10 +138,10 @@ void TestRenderer::CreateVertexBuffer()
     VertexColour vertices[] = 
     {
     //              x       y               colour
-        { glm::vec2(-0.5f,  0.5f), glm::vec3(1.0f, 0.0f, 0.0f) }, // top left
-        { glm::vec2( 0.5f,  0.5f), glm::vec3(0.0f, 1.0f, 0.0f) }, // top right   
-        { glm::vec2( 0.5f, -0.5f), glm::vec3(0.0f, 0.0f, 1.0f) }, // bottom right
-        { glm::vec2(-0.5f, -0.5f), glm::vec3(1.0f, 1.0f, 1.0f) }, // bottom left  
+        { glm::vec2(-0.5f,  0.5f), colour_ }, // top left
+        { glm::vec2( 0.5f,  0.5f), colour_ }, // top right   
+        { glm::vec2( 0.5f, -0.5f), colour_ }, // bottom right
+        { glm::vec2(-0.5f, -0.5f), colour_ }, // bottom left  
     };
 
     // vertex array object

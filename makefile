@@ -7,10 +7,10 @@ CC = g++
 LIBS = -lSDL2 -lGLEW -lGL  
 CFLAGS = -I $(INCLUDE)
 
-_DEPS = core.hpp util.hpp vertex.hpp framework.hpp testrenderer.hpp
+_DEPS = core.hpp util.hpp vertex.hpp colour.hpp framework.hpp testrenderer.hpp
 DEPS = $(patsubst %,$(INCLUDE)/%,$(_DEPS))
 
-_OBJS = util.o framework.o testrenderer.o
+_OBJS = util.o colour.o framework.o testrenderer.o
 OBJS = $(patsubst %,$(OBJ)/%,$(_OBJS))
 
 TARGET = $(BIN)/wyskr
