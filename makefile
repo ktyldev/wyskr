@@ -7,10 +7,10 @@ CC = g++
 LIBS = -lSDL2 -lGLEW -lGL  
 CFLAGS = -I $(INCLUDE)
 
-_DEPS = camera.hpp screen.hpp core.hpp util.hpp time.hpp vertex.hpp colour.hpp framework.hpp testrenderer.hpp
+_DEPS = cuberenderer.hpp renderer.hpp camera.hpp screen.hpp core.hpp util.hpp time.hpp vertex.hpp colour.hpp framework.hpp 
 DEPS = $(patsubst %,$(INCLUDE)/%,$(_DEPS))
 
-_OBJS = camera.o screen.o util.o time.o colour.o framework.o testrenderer.o
+_OBJS = cuberenderer.o renderer.o camera.o screen.o util.o time.o colour.o framework.o 
 OBJS = $(patsubst %,$(OBJ)/%,$(_OBJS))
 
 TARGET = $(BIN)/wyskr

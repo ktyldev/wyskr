@@ -5,8 +5,6 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_opengl.h>
 
-#include "testrenderer.hpp"
-
 class Framework
 {
 public:
@@ -29,7 +27,6 @@ private:
     SDL_GLContext   context_;
 
     // misc :)
-    TestRenderer    renderer_;
     Colour          backgroundColour_;
 
     int mainLoop();
