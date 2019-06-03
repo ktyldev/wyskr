@@ -18,7 +18,7 @@ Camera::Camera(float fov, float near, float far) :
 {
     position_   = glm::vec3(1.2f, 1.2f, 1.2f);
     target_     = glm::vec3(0.0f, 0.0f, 0.0f);
-    up_         = glm::vec3(0.0f, 0.0f, 1.0f);
+    up_         = glm::vec3(0.0f, 1.0f, 0.0f);
 }
 
 Camera* Camera::main()

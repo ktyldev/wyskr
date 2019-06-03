@@ -39,7 +39,7 @@ void CubeRenderer::update()
 
     // update transformation
     glm::mat4 trans = glm::mat4(1.0f);
-    trans = glm::rotate(trans, glm::radians((float)time * turnSpeed), glm::vec3(0.0f, 0.0f, 1.0f)); 
+    trans = glm::rotate(trans, glm::radians((float)time * turnSpeed), glm::vec3(0.0f, 1.0f, 0.0f)); 
     glm::vec4 result = trans * glm::vec4(1.0f, 0.0f, 0.0f, 1.0f);
     GLint uniTrans = glGetUniformLocation(shaderProgram(), "model");
     glUniformMatrix4fv(uniTrans, 1, GL_FALSE, glm::value_ptr(trans));
