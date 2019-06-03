@@ -7,6 +7,8 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
+#include "camera.hpp"
+
 #define FIELD_OF_VIEW   60.0f
 
 TestRenderer::TestRenderer()
@@ -43,28 +45,14 @@ void TestRenderer::update()
 
 void TestRenderer::updateView()
 {
-    view_ = glm::lookAt(
-        glm::vec3(1.2f, 1.2f, 1.2f),
-        glm::vec3(0.0f, 0.0f, 0.0f),
-        glm::vec3(0.0f, 0.0f, 1.0f)
-    );
     GLint uniView = glGetUniformLocation(shaderProgram_, "view");
-    glUniformMatrix4fv(uniView, 1, GL_FALSE, glm::value_ptr(view_));
+    glUniformMatrix4fv(uniView, 1, GL_FALSE, glm::value_ptr(Camera::main()->view()));
 }
 
 void TestRenderer::updateProjection()
 {
-    // clipping planes
-    float near = 1.0f;
-    float far = 10.0f;
-    	
-    projection_ = glm::perspective(
-        glm::radians(FIELD_OF_VIEW), 
-        Screen::aspect(), 
-        near, 
-        far);
     GLuint uniProjection = glGetUniformLocation(shaderProgram_, "projection");
-    glUniformMatrix4fv(uniProjection, 1, GL_FALSE, glm::value_ptr(projection_));
+    glUniformMatrix4fv(uniProjection, 1, GL_FALSE, glm::value_ptr(Camera::main()->projection()));
 }
 
 void TestRenderer::render()
