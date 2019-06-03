@@ -28,7 +28,12 @@ void CubeRenderer::update()
     // TODO: these things are being done by the shader, shouldn't be in update
 
     // update lighting
-    glm::vec3 lightVector = glm::vec3(-0.8f, -0.2f, -0.2f);
+    glm::vec3 ambientColour = glm::vec3(0.0f, 0.3f, 0.3f);
+    GLint uniAmbient = glGetUniformLocation(shaderProgram(), "ambient");
+    glUniform3fv(uniAmbient, 1, glm::value_ptr(ambientColour));
+
+    // directional
+    glm::vec3 lightVector = glm::vec3(-0.8f, 0.2f, 0.2f);
     GLint uniLightVector = glGetUniformLocation(shaderProgram(), "lightVector");
     glUniform3fv(uniLightVector, 1, glm::value_ptr(lightVector));
 

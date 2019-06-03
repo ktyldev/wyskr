@@ -6,6 +6,7 @@ in vec3 colour;
 
 out vec3 Colour;
 
+uniform vec3 ambient;
 uniform vec3 lightVector;
 uniform mat4 model;
 uniform mat4 view;
@@ -19,6 +20,6 @@ void main()
     vec4 adjustedNormal = normalize(model * vec4(normal, 1.0));
     float diffuseBrightness = clamp(dot(adjustedNormal, reverseLight), 0.0, 1.0);
 
-    Colour = colour * diffuseBrightness;
+    Colour = clamp(ambient + colour * diffuseBrightness, 0.0, 1.0);
     gl_Position = complete * model * vec4(position, 1.0);
 }
