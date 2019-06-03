@@ -3,6 +3,7 @@
 #include "stdio.h"
 #include <string>
 #include <fstream>
+#include <iostream>
 #include <chrono>
 
 #include "cuberenderer.hpp"
@@ -28,7 +29,18 @@ Framework::Framework(unsigned int width, unsigned int height)
     Screen::initialise(width, height);
 
     framework_ = *this; 
-    printf("wyskr v0.0.1\n");
+
+    std::string version = "0.0.1";
+
+    std::cout << "                       _                " << std::endl;
+    std::cout << "__      __ _   _  ___ | | __ _ __       " << std::endl;
+    std::cout << "\\ \\ /\\ / /| | | |/ __|| |/ /| '__|   " << std::endl;
+    std::cout << " \\ V  V / | |_| |\\__ \\|   < | |      " << std::endl;
+    std::cout << "  \\_/\\_/   \\__, ||___/|_|\\_\\|_|    " << std::endl;
+    std::cout << "           |___/                        " << std::endl;
+    std::cout << "                v" << version             << std::endl;
+    std::cout << std::endl;
+
 }
 
 Framework::~Framework() 
