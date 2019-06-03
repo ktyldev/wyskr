@@ -25,6 +25,14 @@ void CubeRenderer::update()
 
     float turnSpeed = 50.0f;
 
+    // TODO: these things are being done by the shader, shouldn't be in update
+
+    // update lighting
+    glm::vec3 lightVector = glm::vec3(-0.8f, -0.2f, -0.2f);
+    GLint uniLightVector = glGetUniformLocation(shaderProgram(), "lightVector");
+    glUniform3fv(uniLightVector, 1, glm::value_ptr(lightVector));
+
+    // update transformation
     glm::mat4 trans = glm::mat4(1.0f);
     trans = glm::rotate(trans, glm::radians((float)time * turnSpeed), glm::vec3(0.0f, 0.0f, 1.0f)); 
     glm::vec4 result = trans * glm::vec4(1.0f, 0.0f, 0.0f, 1.0f);
@@ -65,6 +73,16 @@ void CubeRenderer::setShaderAttributes()
         stride, 
         0);
 
+    GLint normalAttrib = glGetAttribLocation(shaderProgram(), "normal");
+    glEnableVertexAttribArray(normalAttrib);
+    glVertexAttribPointer(
+        normalAttrib,
+        3,
+        GL_FLOAT,
+        GL_FALSE,
+        stride,
+        (void*)(3 * sizeof(float)));
+
     GLint colAttrib = glGetAttribLocation(shaderProgram(), "colour");
     glEnableVertexAttribArray(colAttrib);
     glVertexAttribPointer(
@@ -73,50 +91,43 @@ void CubeRenderer::setShaderAttributes()
         GL_FLOAT,
         GL_FALSE,
         stride,
-        (void*)(3 * sizeof(float))); // offset read position
+        (void*)(6 * sizeof(float))); // offset read position
 }
 
 void CubeRenderer::createVertexBuffer()
 {
-    auto c1 = Colour(0.0f, 0.0f, 1.0f).vec3();
-    auto c2 = Colour(0.0f, 1.0f, 0.0f).vec3();
-    auto c3 = Colour(0.0f, 1.0f, 1.0f).vec3();
-    auto c4 = Colour(1.0f, 0.0f, 0.0f).vec3();
-    auto c5 = Colour(1.0f, 0.0f, 1.0f).vec3();
-    auto c6 = Colour(1.0f, 1.0f, 0.0f).vec3();
-
     VertexColour vertices[] = 
     {
     //              x       y      z        colour
-        { glm::vec3(-0.5f,  0.5f, -0.5f), c1 }, 
-        { glm::vec3( 0.5f,  0.5f, -0.5f), c1 }, 
-        { glm::vec3( 0.5f, -0.5f, -0.5f), c1 }, 
-        { glm::vec3(-0.5f, -0.5f, -0.5f), c1 }, 
-
-        { glm::vec3(-0.5f, -0.5f,  0.5f), c2 },
-        { glm::vec3( 0.5f, -0.5f,  0.5f), c2 },
-        { glm::vec3( 0.5f,  0.5f,  0.5f), c2 },
-        { glm::vec3(-0.5f,  0.5f,  0.5f), c2 },
-
-        { glm::vec3(-0.5f,  0.5f,  0.5f), c3 },
-        { glm::vec3(-0.5f,  0.5f, -0.5f), c3 },
-        { glm::vec3(-0.5f, -0.5f, -0.5f), c3 },
-        { glm::vec3(-0.5f, -0.5f,  0.5f), c3 },
-
-        { glm::vec3( 0.5f,  0.5f,  0.5f), c4 },
-        { glm::vec3( 0.5f,  0.5f, -0.5f), c4 },
-        { glm::vec3( 0.5f, -0.5f, -0.5f), c4 },
-        { glm::vec3( 0.5f, -0.5f,  0.5f), c4 },
-
-        { glm::vec3(-0.5f, -0.5f, -0.5f), c5 },
-        { glm::vec3( 0.5f, -0.5f, -0.5f), c5 },
-        { glm::vec3( 0.5f, -0.5f,  0.5f), c5 },
-        { glm::vec3(-0.5f, -0.5f,  0.5f), c5 },
-
-        { glm::vec3(-0.5f,  0.5f, -0.5f), c6 },
-        { glm::vec3( 0.5f,  0.5f, -0.5f), c6 },
-        { glm::vec3( 0.5f,  0.5f,  0.5f), c6 },
-        { glm::vec3(-0.5f,  0.5f,  0.5f), c6 },
+        { glm::vec3(-0.5f,  0.5f, -0.5f), glm::vec3( 0.0f,  0.0f, -1.0f), colour_ },    // back
+        { glm::vec3( 0.5f,  0.5f, -0.5f), glm::vec3( 0.0f,  0.0f, -1.0f), colour_ }, 
+        { glm::vec3( 0.5f, -0.5f, -0.5f), glm::vec3( 0.0f,  0.0f, -1.0f), colour_ }, 
+        { glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec3( 0.0f,  0.0f, -1.0f), colour_ }, 
+                                                            
+        { glm::vec3(-0.5f, -0.5f,  0.5f), glm::vec3( 0.0f,  0.0f,  1.0f), colour_ },    // front
+        { glm::vec3( 0.5f, -0.5f,  0.5f), glm::vec3( 0.0f,  0.0f,  1.0f), colour_ },
+        { glm::vec3( 0.5f,  0.5f,  0.5f), glm::vec3( 0.0f,  0.0f,  1.0f), colour_ },
+        { glm::vec3(-0.5f,  0.5f,  0.5f), glm::vec3( 0.0f,  0.0f,  1.0f), colour_ },
+                                                                   
+        { glm::vec3(-0.5f,  0.5f,  0.5f), glm::vec3(-1.0f,  0.0f,  0.0f), colour_ },    // left
+        { glm::vec3(-0.5f,  0.5f, -0.5f), glm::vec3(-1.0f,  0.0f,  0.0f), colour_ },
+        { glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec3(-1.0f,  0.0f,  0.0f), colour_ },
+        { glm::vec3(-0.5f, -0.5f,  0.5f), glm::vec3(-1.0f,  0.0f,  0.0f), colour_ },
+                                                                   
+        { glm::vec3( 0.5f,  0.5f,  0.5f), glm::vec3( 1.0f,  0.0f,  0.0f), colour_ },    // right
+        { glm::vec3( 0.5f,  0.5f, -0.5f), glm::vec3( 1.0f,  0.0f,  0.0f), colour_ },
+        { glm::vec3( 0.5f, -0.5f, -0.5f), glm::vec3( 1.0f,  0.0f,  0.0f), colour_ },
+        { glm::vec3( 0.5f, -0.5f,  0.5f), glm::vec3( 1.0f,  0.0f,  0.0f), colour_ },
+                                                                   
+        { glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec3( 0.0f, -1.0f,  0.0f), colour_ },    // bottom
+        { glm::vec3( 0.5f, -0.5f, -0.5f), glm::vec3( 0.0f, -1.0f,  0.0f), colour_ },
+        { glm::vec3( 0.5f, -0.5f,  0.5f), glm::vec3( 0.0f, -1.0f,  0.0f), colour_ },
+        { glm::vec3(-0.5f, -0.5f,  0.5f), glm::vec3( 0.0f, -1.0f,  0.0f), colour_ },
+                                                                   
+        { glm::vec3(-0.5f,  0.5f, -0.5f), glm::vec3( 0.0f,  1.0f,  0.0f), colour_ },    // top
+        { glm::vec3( 0.5f,  0.5f, -0.5f), glm::vec3( 0.0f,  1.0f,  0.0f), colour_ },
+        { glm::vec3( 0.5f,  0.5f,  0.5f), glm::vec3( 0.0f,  1.0f,  0.0f), colour_ },
+        { glm::vec3(-0.5f,  0.5f,  0.5f), glm::vec3( 0.0f,  1.0f,  0.0f), colour_ },
     };
 
     // vertex array object
