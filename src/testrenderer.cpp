@@ -64,7 +64,7 @@ void TestRenderer::render()
     updateView();
     updateProjection();
 
-    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+    glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
 
     // disable wireframe
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
@@ -157,13 +157,13 @@ void TestRenderer::compileShaders()
 
 void TestRenderer::setShaderAttributes()
 {
-    int stride = 5 * sizeof(float);
+    int stride = sizeof(VertexColour);
     // get reference to 'position' input of vertex shader
     GLint posAttrib = glGetAttribLocation(shaderProgram_, "position");
     glEnableVertexAttribArray(posAttrib);
     glVertexAttribPointer(
         posAttrib, 
-        2, 
+        3, 
         GL_FLOAT, 
         GL_FALSE, 
         stride, 
@@ -177,18 +177,43 @@ void TestRenderer::setShaderAttributes()
         GL_FLOAT,
         GL_FALSE,
         stride,
-        (void*)(2 * sizeof(float))); // offset red position
+        (void*)(3 * sizeof(float))); // offset read position
 }
 
 void TestRenderer::createVertexBuffer()
 {
     VertexColour vertices[] = 
     {
-    //              x       y               colour
-        { glm::vec2(-0.5f,  0.5f), colour_ }, // top left
-        { glm::vec2( 0.5f,  0.5f), colour_ }, // top right   
-        { glm::vec2( 0.5f, -0.5f), colour_ }, // bottom right
-        { glm::vec2(-0.5f, -0.5f), colour_ }, // bottom left  
+    //              x       y      z        colour
+        { glm::vec3(-0.5f,  0.5f, -0.5f), colour_ }, 
+        { glm::vec3( 0.5f,  0.5f, -0.5f), colour_ }, 
+        { glm::vec3( 0.5f, -0.5f, -0.5f), colour_ }, 
+        { glm::vec3(-0.5f, -0.5f, -0.5f), colour_ }, 
+
+        { glm::vec3(-0.5f, -0.5f,  0.5f), colour_ },
+        { glm::vec3( 0.5f, -0.5f,  0.5f), colour_ },
+        { glm::vec3( 0.5f,  0.5f,  0.5f), colour_ },
+        { glm::vec3(-0.5f,  0.5f,  0.5f), colour_ },
+
+        { glm::vec3(-0.5f,  0.5f,  0.5f), colour_ },
+        { glm::vec3(-0.5f,  0.5f, -0.5f), colour_ },
+        { glm::vec3(-0.5f, -0.5f, -0.5f), colour_ },
+        { glm::vec3(-0.5f, -0.5f,  0.5f), colour_ },
+
+        { glm::vec3( 0.5f,  0.5f,  0.5f), colour_ },
+        { glm::vec3( 0.5f,  0.5f, -0.5f), colour_ },
+        { glm::vec3( 0.5f, -0.5f, -0.5f), colour_ },
+        { glm::vec3( 0.5f, -0.5f,  0.5f), colour_ },
+
+        { glm::vec3(-0.5f, -0.5f, -0.5f), colour_ },
+        { glm::vec3( 0.5f, -0.5f, -0.5f), colour_ },
+        { glm::vec3( 0.5f, -0.5f,  0.5f), colour_ },
+        { glm::vec3(-0.5f, -0.5f,  0.5f), colour_ },
+
+        { glm::vec3(-0.5f,  0.5f, -0.5f), colour_ },
+        { glm::vec3( 0.5f,  0.5f, -0.5f), colour_ },
+        { glm::vec3( 0.5f,  0.5f,  0.5f), colour_ },
+        { glm::vec3(-0.5f,  0.5f,  0.5f), colour_ },
     };
 
     // vertex array object
@@ -208,7 +233,22 @@ void TestRenderer::createElementBuffer()
     GLuint elements[] = 
     {
         0, 1, 2,
-        2, 3, 0
+        2, 3, 0,
+
+        4, 5, 6,
+        6, 7, 4,
+
+        8, 9, 10,
+        10, 11, 8,
+
+        12, 13, 14,
+        14, 15, 12,
+
+        16, 17, 18,
+        18, 19, 16,
+
+        20, 21, 22,
+        22, 23, 20,
     };
 
     // element buffer object
