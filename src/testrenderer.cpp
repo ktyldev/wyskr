@@ -1,6 +1,6 @@
 #include "testrenderer.hpp"
+#include "time.hpp"
 
-#include <ctime>
 #include <vector>
 #include <iostream>
 
@@ -34,13 +34,15 @@ bool TestRenderer::Initialise()
 void TestRenderer::Update()
 {
     // temp update code
-    auto now = std::chrono::high_resolution_clock::now();
-    time_ = std::chrono::duration_cast<std::chrono::duration<float>>(now - start_).count();
+    //auto now = std::chrono::high_resolution_clock::now();
+    //time_ = std::chrono::duration_cast<std::chrono::duration<float>>(now - start_).count();
+
+    double time = Time::time();
 
     float turnSpeed = 50.0f;
 
     glm::mat4 trans = glm::mat4(1.0f);
-    trans = glm::rotate(trans, glm::radians(time_ * turnSpeed), glm::vec3(0.0f, 0.0f, 1.0f)); 
+    trans = glm::rotate(trans, glm::radians((float)time * turnSpeed), glm::vec3(0.0f, 0.0f, 1.0f)); 
     glm::vec4 result = trans * glm::vec4(1.0f, 0.0f, 0.0f, 1.0f);
     GLint uniTrans = glGetUniformLocation(shaderProgram_, "trans");
     glUniformMatrix4fv(uniTrans, 1, GL_FALSE, glm::value_ptr(trans));

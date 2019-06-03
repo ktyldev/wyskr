@@ -1,4 +1,5 @@
 #include "framework.hpp"
+#include "time.hpp"
 
 #include "stdio.h"
 #include <string>
@@ -44,6 +45,8 @@ int Framework::Run()
 
 int Framework::MainLoop()
 {
+    Time::start();
+
     // event loop
     SDL_Event windowEvent;
     while (true)
@@ -53,6 +56,8 @@ int Framework::MainLoop()
             if (windowEvent.type == SDL_QUIT)
                 break;
         }
+
+        Time::update();
 
         Update();
         Render();
