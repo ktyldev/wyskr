@@ -27,6 +27,7 @@ bool TestRenderer::initialise()
     compileShaders();
     setShaderAttributes();
 
+
     return true;
 }
 
@@ -58,7 +59,9 @@ void TestRenderer::updateProjection()
 void TestRenderer::render()
 {
     // enable wireframe
-    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+    // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+
+    glEnable(GL_DEPTH_TEST);
 
     // update transformations
     updateView();
@@ -67,7 +70,7 @@ void TestRenderer::render()
     glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
 
     // disable wireframe
-    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+    // glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 }
 
 void TestRenderer::setColour(Colour& colour)
@@ -182,38 +185,45 @@ void TestRenderer::setShaderAttributes()
 
 void TestRenderer::createVertexBuffer()
 {
+    auto c1 = Colour(0.0f, 0.0f, 1.0f).vec3();
+    auto c2 = Colour(0.0f, 1.0f, 0.0f).vec3();
+    auto c3 = Colour(0.0f, 1.0f, 1.0f).vec3();
+    auto c4 = Colour(1.0f, 0.0f, 0.0f).vec3();
+    auto c5 = Colour(1.0f, 0.0f, 1.0f).vec3();
+    auto c6 = Colour(1.0f, 1.0f, 0.0f).vec3();
+
     VertexColour vertices[] = 
     {
     //              x       y      z        colour
-        { glm::vec3(-0.5f,  0.5f, -0.5f), colour_ }, 
-        { glm::vec3( 0.5f,  0.5f, -0.5f), colour_ }, 
-        { glm::vec3( 0.5f, -0.5f, -0.5f), colour_ }, 
-        { glm::vec3(-0.5f, -0.5f, -0.5f), colour_ }, 
+        { glm::vec3(-0.5f,  0.5f, -0.5f), c1 }, 
+        { glm::vec3( 0.5f,  0.5f, -0.5f), c1 }, 
+        { glm::vec3( 0.5f, -0.5f, -0.5f), c1 }, 
+        { glm::vec3(-0.5f, -0.5f, -0.5f), c1 }, 
 
-        { glm::vec3(-0.5f, -0.5f,  0.5f), colour_ },
-        { glm::vec3( 0.5f, -0.5f,  0.5f), colour_ },
-        { glm::vec3( 0.5f,  0.5f,  0.5f), colour_ },
-        { glm::vec3(-0.5f,  0.5f,  0.5f), colour_ },
+        { glm::vec3(-0.5f, -0.5f,  0.5f), c2 },
+        { glm::vec3( 0.5f, -0.5f,  0.5f), c2 },
+        { glm::vec3( 0.5f,  0.5f,  0.5f), c2 },
+        { glm::vec3(-0.5f,  0.5f,  0.5f), c2 },
 
-        { glm::vec3(-0.5f,  0.5f,  0.5f), colour_ },
-        { glm::vec3(-0.5f,  0.5f, -0.5f), colour_ },
-        { glm::vec3(-0.5f, -0.5f, -0.5f), colour_ },
-        { glm::vec3(-0.5f, -0.5f,  0.5f), colour_ },
+        { glm::vec3(-0.5f,  0.5f,  0.5f), c3 },
+        { glm::vec3(-0.5f,  0.5f, -0.5f), c3 },
+        { glm::vec3(-0.5f, -0.5f, -0.5f), c3 },
+        { glm::vec3(-0.5f, -0.5f,  0.5f), c3 },
 
-        { glm::vec3( 0.5f,  0.5f,  0.5f), colour_ },
-        { glm::vec3( 0.5f,  0.5f, -0.5f), colour_ },
-        { glm::vec3( 0.5f, -0.5f, -0.5f), colour_ },
-        { glm::vec3( 0.5f, -0.5f,  0.5f), colour_ },
+        { glm::vec3( 0.5f,  0.5f,  0.5f), c4 },
+        { glm::vec3( 0.5f,  0.5f, -0.5f), c4 },
+        { glm::vec3( 0.5f, -0.5f, -0.5f), c4 },
+        { glm::vec3( 0.5f, -0.5f,  0.5f), c4 },
 
-        { glm::vec3(-0.5f, -0.5f, -0.5f), colour_ },
-        { glm::vec3( 0.5f, -0.5f, -0.5f), colour_ },
-        { glm::vec3( 0.5f, -0.5f,  0.5f), colour_ },
-        { glm::vec3(-0.5f, -0.5f,  0.5f), colour_ },
+        { glm::vec3(-0.5f, -0.5f, -0.5f), c5 },
+        { glm::vec3( 0.5f, -0.5f, -0.5f), c5 },
+        { glm::vec3( 0.5f, -0.5f,  0.5f), c5 },
+        { glm::vec3(-0.5f, -0.5f,  0.5f), c5 },
 
-        { glm::vec3(-0.5f,  0.5f, -0.5f), colour_ },
-        { glm::vec3( 0.5f,  0.5f, -0.5f), colour_ },
-        { glm::vec3( 0.5f,  0.5f,  0.5f), colour_ },
-        { glm::vec3(-0.5f,  0.5f,  0.5f), colour_ },
+        { glm::vec3(-0.5f,  0.5f, -0.5f), c6 },
+        { glm::vec3( 0.5f,  0.5f, -0.5f), c6 },
+        { glm::vec3( 0.5f,  0.5f,  0.5f), c6 },
+        { glm::vec3(-0.5f,  0.5f,  0.5f), c6 },
     };
 
     // vertex array object
