@@ -12,6 +12,11 @@
 Framework       framework_;
 TestRenderer    renderer_;
 
+int main(int argc, char *argv[]) 
+{
+    framework_.run();
+}
+
 Framework::Framework() : Framework(DEFAULT_WIDTH, DEFAULT_HEIGHT)
 {
 }
@@ -28,22 +33,18 @@ Framework::~Framework()
 {
 }
 
-int main(int argc, char *argv[]) 
-{
-    framework_.Run();
-}
 
-int Framework::Run()
+int Framework::run()
 {
-    bool success = Initialise();
+    bool success = initialise();
 
     if (!success)
         return -1;
 
-    return MainLoop();
+    return mainLoop();
 }
 
-int Framework::MainLoop()
+int Framework::mainLoop()
 {
     Time::start();
 
@@ -59,8 +60,8 @@ int Framework::MainLoop()
 
         Time::update();
 
-        Update();
-        Render();
+        update();
+        render();
     }
 
     // clean up
@@ -70,39 +71,39 @@ int Framework::MainLoop()
     return 0;
 }
 
-bool Framework::Initialise()
+bool Framework::initialise()
 {
-    CreateContext();
+    createContext();
 
     Colour c(1.0f, 0.0f, 0.0f);
-    renderer_.SetColour(c);
-    bool success = renderer_.Initialise();
+    renderer_.setColour(c);
+    bool success = renderer_.initialise();
 
     return success;
 }
 
-void Framework::Update()
+void Framework::update()
 {
-    renderer_.Update();
+    renderer_.update();
 }
 
-void Framework::Render()
+void Framework::render()
 {
-    ClearBackground();
+    clearBackground();
 
-    renderer_.Render();
+    renderer_.render();
 
     SDL_GL_SwapWindow(window_);
 }
 
-void Framework::ClearBackground()
+void Framework::clearBackground()
 {
     Colour c = backgroundColour_;
     glClearColor(c.r(), c.g(), c.b(), 0.0f);
     glClear(GL_COLOR_BUFFER_BIT);
 }
 
-void Framework::CreateContext()
+void Framework::createContext()
 {
     // load SDL modules
     SDL_Init(SDL_INIT_VIDEO);

@@ -14,12 +14,12 @@ public:
     Framework(unsigned int width, unsigned int height);
     ~Framework();
 
-    int Run();
+    int run();
 
-    bool Initialise();
-    void Update();
-    void Render();
-    void Shutdown();
+    bool initialise();
+    void update();
+    void render();
+    void shutdown();
 
 private:
     SDL_Window*     window_;
@@ -31,7 +31,7 @@ private:
     TestRenderer    renderer_;
     Colour          backgroundColour_;
 
-    int MainLoop();
-    void CreateContext();
-    void ClearBackground();
+    int mainLoop();
+    void createContext();
+    void clearBackground();
 };

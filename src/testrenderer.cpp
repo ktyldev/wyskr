@@ -16,27 +16,19 @@ TestRenderer::~TestRenderer()
 {
 }
 
-bool TestRenderer::Initialise()
+bool TestRenderer::initialise()
 {
-    CreateVertexBuffer();
-    CreateElementBuffer();
+    createVertexBuffer();
+    createElementBuffer();
 
-    CompileShaders();
-    SetShaderAttributes();
-
-    start_ = std::chrono::high_resolution_clock::now();
-
-    // temp update code
+    compileShaders();
+    setShaderAttributes();
 
     return true;
 }
 
-void TestRenderer::Update()
+void TestRenderer::update()
 {
-    // temp update code
-    //auto now = std::chrono::high_resolution_clock::now();
-    //time_ = std::chrono::duration_cast<std::chrono::duration<float>>(now - start_).count();
-
     double time = Time::time();
 
     float turnSpeed = 50.0f;
@@ -48,7 +40,7 @@ void TestRenderer::Update()
     glUniformMatrix4fv(uniTrans, 1, GL_FALSE, glm::value_ptr(trans));
 }
 
-void TestRenderer::Render()
+void TestRenderer::render()
 {
     // enable wireframe
     glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
@@ -59,12 +51,12 @@ void TestRenderer::Render()
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 }
 
-void TestRenderer::SetColour(Colour& colour)
+void TestRenderer::setColour(Colour& colour)
 {
     colour_ = colour.vec3();
 }
 
-GLuint TestRenderer::LoadShaders(const char* vertexPath, const char* fragmentPath)
+GLuint TestRenderer::loadShaders(const char* vertexPath, const char* fragmentPath)
 {
     printf("reading shaders...\n");
     GLuint vertShader = glCreateShader(GL_VERTEX_SHADER);
@@ -134,17 +126,17 @@ GLuint TestRenderer::LoadShaders(const char* vertexPath, const char* fragmentPat
     return program;
 }
 
-void TestRenderer::CompileShaders()
+void TestRenderer::compileShaders()
 {
     printf("compiling shaders...\n");
-    shaderProgram_ = LoadShaders(
+    shaderProgram_ = loadShaders(
         "src/shaders/shader.vert", 
         "src/shaders/shader.frag");
 
     glUseProgram(shaderProgram_);
 }
 
-void TestRenderer::SetShaderAttributes()
+void TestRenderer::setShaderAttributes()
 {
     int stride = 5 * sizeof(float);
     // get reference to 'position' input of vertex shader
@@ -169,7 +161,7 @@ void TestRenderer::SetShaderAttributes()
         (void*)(2 * sizeof(float))); // offset red position
 }
 
-void TestRenderer::CreateVertexBuffer()
+void TestRenderer::createVertexBuffer()
 {
     VertexColour vertices[] = 
     {
@@ -192,7 +184,7 @@ void TestRenderer::CreateVertexBuffer()
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 }
 
-void TestRenderer::CreateElementBuffer()
+void TestRenderer::createElementBuffer()
 {
     GLuint elements[] = 
     {
