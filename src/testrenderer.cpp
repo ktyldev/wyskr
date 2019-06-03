@@ -1,5 +1,4 @@
 #include "testrenderer.hpp"
-#include "time.hpp"
 
 #include <vector>
 #include <iostream>
@@ -7,6 +6,8 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+
+#define FIELD_OF_VIEW   60.0f
 
 TestRenderer::TestRenderer()
 {
@@ -36,14 +37,44 @@ void TestRenderer::update()
     glm::mat4 trans = glm::mat4(1.0f);
     trans = glm::rotate(trans, glm::radians((float)time * turnSpeed), glm::vec3(0.0f, 0.0f, 1.0f)); 
     glm::vec4 result = trans * glm::vec4(1.0f, 0.0f, 0.0f, 1.0f);
-    GLint uniTrans = glGetUniformLocation(shaderProgram_, "trans");
+    GLint uniTrans = glGetUniformLocation(shaderProgram_, "model");
     glUniformMatrix4fv(uniTrans, 1, GL_FALSE, glm::value_ptr(trans));
+}
+
+void TestRenderer::updateView()
+{
+    view_ = glm::lookAt(
+        glm::vec3(1.2f, 1.2f, 1.2f),
+        glm::vec3(0.0f, 0.0f, 0.0f),
+        glm::vec3(0.0f, 0.0f, 1.0f)
+    );
+    GLint uniView = glGetUniformLocation(shaderProgram_, "view");
+    glUniformMatrix4fv(uniView, 1, GL_FALSE, glm::value_ptr(view_));
+}
+
+void TestRenderer::updateProjection()
+{
+    // clipping planes
+    float near = 1.0f;
+    float far = 10.0f;
+    	
+    projection_ = glm::perspective(
+        glm::radians(FIELD_OF_VIEW), 
+        Screen::aspect(), 
+        near, 
+        far);
+    GLuint uniProjection = glGetUniformLocation(shaderProgram_, "projection");
+    glUniformMatrix4fv(uniProjection, 1, GL_FALSE, glm::value_ptr(projection_));
 }
 
 void TestRenderer::render()
 {
     // enable wireframe
     glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+
+    // update transformations
+    updateView();
+    updateProjection();
 
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 

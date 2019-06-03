@@ -23,9 +23,15 @@ private:
     GLuint          shaderProgram_;
     glm::vec3       colour_;
 
+    glm::mat4       view_;
+    glm::mat4       projection_;
+
     GLuint loadShaders(const char* vertexPath, const char* fragmentPath);
     void compileShaders();
     void setShaderAttributes();
     void createVertexBuffer();
     void createElementBuffer();
+
+    void updateView();
+    void updateProjection();
 };

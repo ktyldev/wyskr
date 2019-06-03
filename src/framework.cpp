@@ -1,5 +1,4 @@
 #include "framework.hpp"
-#include "time.hpp"
 
 #include "stdio.h"
 #include <string>
@@ -8,6 +7,7 @@
 
 #define DEFAULT_WIDTH   800
 #define DEFAULT_HEIGHT  600
+#define FIELD_OF_VIEW   90  
 
 Framework       framework_;
 TestRenderer    renderer_;
@@ -21,10 +21,10 @@ Framework::Framework() : Framework(DEFAULT_WIDTH, DEFAULT_HEIGHT)
 {
 }
 
-Framework::Framework(unsigned int width, unsigned int height) :
-    width_(width),
-    height_(height)
+Framework::Framework(unsigned int width, unsigned int height)
 {
+    Screen::initialise(width, height);
+
     framework_ = *this; 
     printf("wyskr v0.0.1\n");
 }
@@ -32,7 +32,6 @@ Framework::Framework(unsigned int width, unsigned int height) :
 Framework::~Framework() 
 {
 }
-
 
 int Framework::run()
 {
@@ -126,4 +125,5 @@ void Framework::createContext()
     glewExperimental = GL_TRUE;
     glewInit();
 }
+
 

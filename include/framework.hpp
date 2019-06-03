@@ -14,6 +14,8 @@ public:
     Framework(unsigned int width, unsigned int height);
     ~Framework();
 
+    static Framework* instance();
+
     int run();
 
     bool initialise();
@@ -22,10 +24,9 @@ public:
     void shutdown();
 
 private:
+    // window
     SDL_Window*     window_;
     SDL_GLContext   context_;
-    unsigned int    width_;
-    unsigned int    height_;
 
     // misc :)
     TestRenderer    renderer_;
