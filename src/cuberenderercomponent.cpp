@@ -1,9 +1,10 @@
 #include "cuberenderercomponent.hpp"
 
 CubeRendererComponent::CubeRendererComponent() : CubeRendererComponent(
-    "src/shaders/shader.vert",
-    "src/shaders/shader.frag") 
+    "res/shader/shader.vert",
+    "res/shader/shader.frag") 
 {
+
 }
 
 CubeRendererComponent::CubeRendererComponent(std::string vsPath, std::string fsPath) :
