@@ -1,24 +1,24 @@
-#include "cuberenderer.hpp"
+#include "cuberenderercomponent.hpp"
 
-CubeRenderer::CubeRenderer() : CubeRenderer(
+CubeRendererComponent::CubeRendererComponent() : CubeRendererComponent(
     "src/shaders/shader.vert",
     "src/shaders/shader.frag") 
 {
 }
 
-CubeRenderer::CubeRenderer(std::string vsPath, std::string fsPath) :
-    Renderer(vsPath, fsPath)
+CubeRendererComponent::CubeRendererComponent(std::string vsPath, std::string fsPath) :
+    RendererComponent(vsPath, fsPath)
 {
 }
 
-bool CubeRenderer::initialise()
+bool CubeRendererComponent::initialise()
 {
-    return Renderer::initialise();
+    return RendererComponent::initialise();
 }
 
-void CubeRenderer::update()
+void CubeRendererComponent::update()
 {
-    Renderer::update();
+    RendererComponent::update();
 
     // TODO: factor out to non-renderer class
     double time = Time::time();
@@ -45,9 +45,9 @@ void CubeRenderer::update()
     glUniformMatrix4fv(uniTrans, 1, GL_FALSE, glm::value_ptr(trans));
 }
 
-void CubeRenderer::render()
+void CubeRendererComponent::render()
 {
-    Renderer::render();
+    RendererComponent::render();
 
     // enable wireframe
     // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
@@ -59,12 +59,12 @@ void CubeRenderer::render()
     // glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 }
 
-void CubeRenderer::setColour(Colour& colour)
+void CubeRendererComponent::setColour(Colour& colour)
 {
     colour_ = colour.vec3();
 }
 
-void CubeRenderer::setShaderAttributes()
+void CubeRendererComponent::setShaderAttributes()
 {
     int stride = sizeof(VertexColour);
     // get reference to 'position' input of vertex shader
@@ -99,7 +99,7 @@ void CubeRenderer::setShaderAttributes()
         (void*)(6 * sizeof(float))); // offset read position
 }
 
-void CubeRenderer::createVertexBuffer()
+void CubeRendererComponent::createVertexBuffer()
 {
     VertexColour vertices[] = 
     {
@@ -147,7 +147,7 @@ void CubeRenderer::createVertexBuffer()
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 }
 
-void CubeRenderer::createElementBuffer()
+void CubeRendererComponent::createElementBuffer()
 {
     GLuint elements[] = 
     {

@@ -6,14 +6,18 @@
 #include <iostream>
 #include <chrono>
 
-#include "cuberenderer.hpp"
+#include "ecs.hpp"
+#include "cuberenderercomponent.hpp"
 
 #define DEFAULT_WIDTH   800
 #define DEFAULT_HEIGHT  600
 #define FIELD_OF_VIEW   90  
 
 Framework       framework_;
-CubeRenderer    renderer_;
+
+// ecs manager
+ECSManager ecs;
+auto& testEntity(ecs.addEntity());
 
 int main(int argc, char *argv[]) 
 {
@@ -89,22 +93,22 @@ bool Framework::initialise()
     createContext();
 
     Colour c(1.0f, 0.0f, 0.0f);
-    renderer_.setColour(c);
-    bool success = renderer_.initialise();
+    testEntity.addComponent<CubeRendererComponent>();
+    testEntity.getComponent<CubeRendererComponent>().setColour(c);
 
-    return success;
+    return ecs.initialise();
 }
 
 void Framework::update()
 {
-    renderer_.update();
+    ecs.update();
 }
 
 void Framework::render()
 {
     clearBackground();
 
-    renderer_.render();
+    ecs.render();
 
     SDL_GL_SwapWindow(window_);
 }

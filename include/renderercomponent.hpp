@@ -1,11 +1,12 @@
 #include <string>
 
 #include "core.hpp"
+#include "ecs.hpp"
 
-class Renderer
+class RendererComponent : public Component
 {
 public:
-    Renderer(std::string vsPath, std::string fsPath);
+    RendererComponent(std::string vsPath, std::string fsPath);
 
     virtual bool initialise();
     virtual void update();

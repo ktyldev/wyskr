@@ -1,17 +1,17 @@
-#include "renderer.hpp"
+#include "renderercomponent.hpp"
 
 #include <iostream>
 #include <vector>
 
 #include "camera.hpp"
 
-Renderer::Renderer(std::string vsPath, std::string fsPath) : 
+RendererComponent::RendererComponent(std::string vsPath, std::string fsPath) : 
     vsPath_(vsPath),
     fsPath_(fsPath)
 {
 }
 
-bool Renderer::initialise()
+bool RendererComponent::initialise()
 {
     createVertexBuffer();
     createElementBuffer();
@@ -22,29 +22,29 @@ bool Renderer::initialise()
     return true;
 }
 
-void Renderer::update()
+void RendererComponent::update()
 {
 }
 
-void Renderer::render()
+void RendererComponent::render()
 {
     updateView();
     updateProjection();
 }
 
-void Renderer::updateView()
+void RendererComponent::updateView()
 {
     GLint uniView = glGetUniformLocation(shaderProgram_, "view");
     glUniformMatrix4fv(uniView, 1, GL_FALSE, glm::value_ptr(Camera::main()->view()));
 }
 
-void Renderer::updateProjection()
+void RendererComponent::updateProjection()
 {
     GLuint uniProjection = glGetUniformLocation(shaderProgram_, "projection");
     glUniformMatrix4fv(uniProjection, 1, GL_FALSE, glm::value_ptr(Camera::main()->projection()));
 }
 
-void Renderer::compileShaders()
+void RendererComponent::compileShaders()
 {
     shaderProgram_ = loadShaders();
 
@@ -52,7 +52,7 @@ void Renderer::compileShaders()
     glUseProgram(shaderProgram_);   
 }
 
-GLuint Renderer::loadShaders()
+GLuint RendererComponent::loadShaders()
 {
     printf("reading shaders...\n");
     GLuint vertShader = glCreateShader(GL_VERTEX_SHADER);

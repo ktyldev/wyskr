@@ -1,10 +1,10 @@
-#include "renderer.hpp"
+#include "renderercomponent.hpp"
 
-class CubeRenderer : Renderer
+class CubeRendererComponent : public RendererComponent
 {
 public:
-    CubeRenderer();
-    CubeRenderer(std::string vsPath, std::string fsPath);
+    CubeRendererComponent();
+    CubeRendererComponent(std::string vsPath, std::string fsPath);
 
     bool initialise();
     void update();
