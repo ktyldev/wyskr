@@ -6,6 +6,7 @@ A lightweight OpenGL/C++ 3D engine with the goal of simulating a basic solar sys
 
 storing todos here temporarily until i can be bothered to organise a trello
 
+*   create shader registry to stop shaders getting compiled multiple times
 *   create scene graph
 *   transforms
 *   load 3d models
@@ -13,6 +14,7 @@ storing todos here temporarily until i can be bothered to organise a trello
 *   handle fullscreen window
 *   use cmake to handle cross-platform development
 *   check for dependencies on startup
+
 
 
 

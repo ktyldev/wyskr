@@ -22,13 +22,13 @@ RESOURCE = $(BIN)/$(RES)
 _dummy := $(shell mkdir -p $(BIN))
 _dummy := $(shell mkdir -p $(OBJ))
 
-$(RESOURCE):
-	cp -r $(RES) $(BIN)
-
 $(OBJ)/%.o: $(SRC)/%.cpp $(DEPS)
 	$(CC) -c -o $@ $< $(CFLAGS)
 
-$(TARGET): $(OBJS) $(RESOURCE)
+# perform build and
+# copy resources to build dir
+$(TARGET): $(OBJS) 
 	$(CC) -o $@ $^ $(CFLAGS) $(LIBS)
+	cp -r $(RES) $(BIN)
 
 
