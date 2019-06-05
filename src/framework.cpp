@@ -93,8 +93,8 @@ bool Framework::initialise()
     createContext();
 
     Colour c(1.0f, 0.0f, 0.0f);
-    testEntity.addComponent<CubeRendererComponent>();
-    testEntity.getComponent<CubeRendererComponent>().setColour(c);
+    testEntity.addComponent<CubeRenderer>();
+    testEntity.getComponent<CubeRenderer>().setColour(c);
 
     return ecs.initialise();
 }

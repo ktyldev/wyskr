@@ -1,25 +1,24 @@
-#include "cuberenderer.hpp"
+#include "component/cuberenderer.hpp"
 
-CubeRendererComponent::CubeRendererComponent() : CubeRendererComponent(
+CubeRenderer::CubeRenderer() : CubeRenderer(
     "res/shader/shader.vert",
     "res/shader/shader.frag") 
 {
-
 }
 
-CubeRendererComponent::CubeRendererComponent(std::string vsPath, std::string fsPath) :
-    RendererComponent(vsPath, fsPath)
+CubeRenderer::CubeRenderer(std::string vsPath, std::string fsPath) :
+    Renderer(vsPath, fsPath)
 {
 }
 
-bool CubeRendererComponent::initialise()
+bool CubeRenderer::initialise()
 {
-    return RendererComponent::initialise();
+    return Renderer::initialise();
 }
 
-void CubeRendererComponent::update()
+void CubeRenderer::update()
 {
-    RendererComponent::update();
+    Renderer::update();
 
     // TODO: factor out to non-renderer class
     double time = Time::time();
@@ -46,9 +45,9 @@ void CubeRendererComponent::update()
     glUniformMatrix4fv(uniTrans, 1, GL_FALSE, glm::value_ptr(trans));
 }
 
-void CubeRendererComponent::render()
+void CubeRenderer::render()
 {
-    RendererComponent::render();
+    Renderer::render();
 
     // enable wireframe
     // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
@@ -60,12 +59,12 @@ void CubeRendererComponent::render()
     // glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 }
 
-void CubeRendererComponent::setColour(Colour& colour)
+void CubeRenderer::setColour(Colour& colour)
 {
     colour_ = colour.vec3();
 }
 
-void CubeRendererComponent::setShaderAttributes()
+void CubeRenderer::setShaderAttributes()
 {
     int stride = sizeof(VertexColour);
     // get reference to 'position' input of vertex shader
@@ -100,7 +99,7 @@ void CubeRendererComponent::setShaderAttributes()
         (void*)(6 * sizeof(float))); // offset read position
 }
 
-void CubeRendererComponent::createVertexBuffer()
+void CubeRenderer::createVertexBuffer()
 {
     VertexColour vertices[] = 
     {
@@ -148,7 +147,7 @@ void CubeRendererComponent::createVertexBuffer()
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 }
 
-void CubeRendererComponent::createElementBuffer()
+void CubeRenderer::createElementBuffer()
 {
     GLuint elements[] = 
     {
