@@ -30,3 +30,6 @@ $(TARGET): $(OBJ)
 .PHONY: clean
 clean:
 	-rm -r $(OBJ) $(BIN_DIR) 
+
+run: $(TARGET)
+	$(TARGET)
