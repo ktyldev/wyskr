@@ -1,27 +1,22 @@
 #include "util.hpp"
 
-#include "stdio.h"
+#include <stdio.h>
 #include <iostream>
 #include <fstream>
 
-std::string readFile(const char* path)
+std::vector<char> readFile(const std::string& filename)
 {
-    std::string content;
-    std::ifstream stream(path, std::ios::in);
+    std::ifstream file(filename, std::ios::ate | std::ios::binary);
 
-    if (!stream.is_open())
-    {
-        std::cerr << "could not read file " << path << ". file does not exist." << std::endl; 
-        return "";
-    }
+    if (!file.is_open())
+        throw std::runtime_error("failed to open file");
 
-    std::string line = "";
-    while (!stream.eof())
-    {
-        std::getline(stream, line);
-        content.append(line + "\n");
-    }
+    size_t fileSize = (size_t)file.tellg();
+    std::vector<char> buffer(fileSize);
+    
+    file.seekg(0);
+    file.read(buffer.data(), fileSize);
+    file.close();
 
-    stream.close();
-    return content;
+    return buffer;
 }

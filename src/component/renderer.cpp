@@ -58,8 +58,8 @@ GLuint Renderer::loadShaders()
     GLuint fragShader = glCreateShader(GL_FRAGMENT_SHADER);
 
     // read shaders
-    std::string vertShaderStr = readFile(vsPath_.c_str());
-    std::string fragShaderStr = readFile(fsPath_.c_str());
+    std::string vertShaderStr = readFile(vsPath_.c_str()).data();
+    std::string fragShaderStr = readFile(fsPath_.c_str()).data();
     const char* vertShaderSrc = vertShaderStr.c_str();
     const char* fragShaderSrc = fragShaderStr.c_str();
 

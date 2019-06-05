@@ -5,7 +5,7 @@ RES_DIR = res
 # executable
 TARGET = $(BIN_DIR)/wyskr
 CC = g++
-LIBS = $(pkg-config --static --libs gl glew sdl2)  
+LIBS = `pkg-config --static --libs glew sdl2`  
 
 CFLAGS = -I$(SRC_DIR) -std=c++17 -Wall
 

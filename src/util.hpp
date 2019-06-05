@@ -1,5 +1,6 @@
 #pragma once
 
 #include <string>
+#include <vector>
 
-std::string readFile(const char* path);
+std::vector<char> readFile(const std::string& filename);

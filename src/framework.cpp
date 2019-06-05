@@ -5,6 +5,7 @@
 #include <fstream>
 #include <iostream>
 #include <chrono>
+#include <algorithm>
 
 #include "ecs.hpp"
 #include "component/cuberenderer.hpp"
@@ -31,20 +32,7 @@ Framework::Framework() : Framework(DEFAULT_WIDTH, DEFAULT_HEIGHT)
 Framework::Framework(unsigned int width, unsigned int height)
 {
     Screen::initialise(width, height);
-
     framework_ = *this; 
-
-    std::string version = "0.0.1";
-
-    std::cout << "                       _                " << std::endl;
-    std::cout << "__      __ _   _  ___ | | __ _ __       " << std::endl;
-    std::cout << "\\ \\ /\\ / /| | | |/ __|| |/ /| '__|   " << std::endl;
-    std::cout << " \\ V  V / | |_| |\\__ \\|   < | |      " << std::endl;
-    std::cout << "  \\_/\\_/   \\__, ||___/|_|\\_\\|_|    " << std::endl;
-    std::cout << "           |___/                        " << std::endl;
-    std::cout << "                v" << version             << std::endl;
-    std::cout << std::endl;
-
 }
 
 Framework::~Framework() 
@@ -53,6 +41,8 @@ Framework::~Framework()
 
 int Framework::run()
 {
+    displaySplash();
+
     bool success = initialise();
 
     if (!success)
@@ -144,4 +134,23 @@ void Framework::createContext()
     glewInit();
 }
 
+void Framework::displaySplash()
+{
+    std::string versionTemplate("{version}");
+    std::string version("0.0.1");
+    std::vector<char> splash(readFile("res/splash.txt"));
+    std::string splashStr(splash.begin(), splash.end());
 
+    size_t i = splashStr.find(versionTemplate);
+
+    if (i != std::string::npos)
+    {
+        splashStr.replace(i, versionTemplate.length(), version);
+    }
+    else 
+    {
+        throw "D:";
+    }
+
+    std::cout << splashStr << std::endl;
+}

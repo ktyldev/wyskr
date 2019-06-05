@@ -32,4 +32,5 @@ private:
     int mainLoop();
     void createContext();
     void clearBackground();
+    void displaySplash();
 };
