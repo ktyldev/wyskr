@@ -2,14 +2,13 @@ SRC = src
 OBJ = obj
 BIN = bin
 RES = res
-INC = inc
 
 CC = g++
 LIBS = -lSDL2 -lGLEW -lGL  
-CFLAGS = -I $(INC)
+CFLAGS = -I $(SRC)
 
 _DEPS = ecs.hpp cuberenderercomponent.hpp renderercomponent.hpp camera.hpp screen.hpp core.hpp util.hpp time.hpp vertex.hpp colour.hpp framework.hpp 
-DEPS = $(patsubst %,$(INC)/%,$(_DEPS))
+DEPS = $(patsubst %,$(SRC)/%,$(_DEPS))
 
 _OBJS = cuberenderercomponent.o renderercomponent.o camera.o screen.o util.o time.o colour.o framework.o 
 OBJS = $(patsubst %,$(OBJ)/%,$(_OBJS))
