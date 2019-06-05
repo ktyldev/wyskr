@@ -15,15 +15,11 @@ _OBJS = cuberenderercomponent.o renderercomponent.o camera.o screen.o util.o tim
 OBJS = $(patsubst %,$(OBJ)/%,$(_OBJS))
 
 TARGET = $(BIN)/wyskr
-RESOURCE = $(BIN)/$(RES)
 
 # create dirs if they doesn't exist
 #https://stackoverflow.com/questions/16344719/how-to-create-directory-if-needed
 _dummy := $(shell mkdir -p $(BIN))
 _dummy := $(shell mkdir -p $(OBJ))
-
-$(OBJ)/%.o: $(SRC)/%.cpp $(DEPS)
-	$(CC) -c -o $@ $< $(CFLAGS)
 
 # perform build and
 # copy resources to build dir
@@ -31,4 +27,9 @@ $(TARGET): $(OBJS)
 	$(CC) -o $@ $^ $(CFLAGS) $(LIBS)
 	cp -r $(RES) $(BIN)
 
+$(OBJ)/%.o: $(SRC)/%.cpp $(DEPS)
+	$(CC) -c -o $@ $< $(CFLAGS)
 
+.PHONY: clean
+clean:
+	-rm -r $(OBJ) $(BIN) 
