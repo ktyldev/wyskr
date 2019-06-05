@@ -1,0 +1,5 @@
+g++
+%cpp
+%hpp
+-Isrc
+-lSDL2 -lGLEW -lGL

@@ -26,7 +26,6 @@ $(TARGET): $(OBJ)
 
 %.o: %.cpp 
 	$(CC) $(CFLAGS) -c -o $@ $<
-	cp $@ $(OBJ_DIR)
 
 .PHONY: clean
 clean:
