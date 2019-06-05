@@ -7,7 +7,7 @@
 #include <chrono>
 
 #include "ecs.hpp"
-#include "cuberenderercomponent.hpp"
+#include "component/cuberenderer.hpp"
 
 #define DEFAULT_WIDTH   800
 #define DEFAULT_HEIGHT  600

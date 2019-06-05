@@ -1,4 +1,4 @@
-#include "renderercomponent.hpp"
+#include "renderer.hpp"
 
 class CubeRendererComponent : public RendererComponent
 {

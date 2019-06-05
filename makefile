@@ -1,34 +1,33 @@
-SRC = src
-OBJ = obj
-BIN = bin
-RES = res
+SRC_DIR = src
+OBJ_DIR = obj
+BIN_DIR = bin
+RES_DIR = res
 
+# executable
+TARGET = $(BIN_DIR)/wyskr
 CC = g++
 LIBS = -lSDL2 -lGLEW -lGL  
-CFLAGS = -I $(SRC)
 
-_DEPS = ecs.hpp cuberenderercomponent.hpp renderercomponent.hpp camera.hpp screen.hpp core.hpp util.hpp time.hpp vertex.hpp colour.hpp framework.hpp 
-DEPS = $(patsubst %,$(SRC)/%,$(_DEPS))
+CFLAGS = -I$(SRC_DIR)
 
-_OBJS = cuberenderercomponent.o renderercomponent.o camera.o screen.o util.o time.o colour.o framework.o 
-OBJS = $(patsubst %,$(OBJ)/%,$(_OBJS))
-
-TARGET = $(BIN)/wyskr
+SRC = $(shell find . -name *.cpp)
+OBJ = $(SRC:%.cpp=%.o)
 
 # create dirs if they doesn't exist
 #https://stackoverflow.com/questions/16344719/how-to-create-directory-if-needed
-_dummy := $(shell mkdir -p $(BIN))
-_dummy := $(shell mkdir -p $(OBJ))
+_dummy := $(shell mkdir -p $(BIN_DIR))
+_dummy := $(shell mkdir -p $(OBJ_DIR))
 
 # perform build and
 # copy resources to build dir
-$(TARGET): $(OBJS) 
-	$(CC) -o $@ $^ $(CFLAGS) $(LIBS)
-	cp -r $(RES) $(BIN)
+$(TARGET): $(OBJ) 
+	$(CC) $(CFLAGS) -o $@ $^ $(LIBS)
+	cp -r $(RES_DIR) $(BIN_DIR)
 
-$(OBJ)/%.o: $(SRC)/%.cpp $(DEPS)
-	$(CC) -c -o $@ $< $(CFLAGS)
+%.o: %.cpp 
+	$(CC) $(CFLAGS) -c -o $@ $<
+	cp $@ $(OBJ_DIR)
 
 .PHONY: clean
 clean:
-	-rm -r $(OBJ) $(BIN) 
+	-rm -r $(OBJ) $(BIN_DIR) 

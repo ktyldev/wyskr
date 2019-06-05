@@ -1,4 +1,4 @@
-#include "cuberenderercomponent.hpp"
+#include "cuberenderer.hpp"
 
 CubeRendererComponent::CubeRendererComponent() : CubeRendererComponent(
     "res/shader/shader.vert",

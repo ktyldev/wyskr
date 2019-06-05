@@ -1,4 +1,4 @@
-#include "renderercomponent.hpp"
+#include "renderer.hpp"
 
 #include <iostream>
 #include <vector>
