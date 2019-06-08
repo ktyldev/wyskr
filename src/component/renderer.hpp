@@ -1,7 +1,7 @@
 #include <string>
 
-#include "core.hpp"
-#include "ecs.hpp"
+#include "core/core.hpp"
+#include "core/ecs.hpp"
 
 class Renderer : public Component
 {

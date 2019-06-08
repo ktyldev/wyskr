@@ -1,5 +1,5 @@
-#include "ecs.hpp"
-#include "math.hpp"
+#include "core/ecs.hpp"
+#include "core/math.hpp"
 
 // TODO: differentiate between local/global positions
 class Transform : public Component

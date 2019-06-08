@@ -1,6 +1,6 @@
 #pragma once
 
-#include "core.hpp"
+#include "core/core.hpp"
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_opengl.h>

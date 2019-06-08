@@ -7,7 +7,7 @@
 #include <chrono>
 #include <algorithm>
 
-#include "ecs.hpp"
+#include "core/ecs.hpp"
 #include "component/cuberenderer.hpp"
 #include "component/transform.hpp"
 
