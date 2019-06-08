@@ -16,7 +16,6 @@ public:
     // translates in local space
     void translate(float x, float y, float z);
     void rotate(float angle, glm::vec3 axis);
-    void rotateEuler(float x, float y, float z);
 
     //
     // GETTERS

@@ -50,27 +50,6 @@ void Transform::rotate(float angle, glm::vec3 axis)
     rotation_ = glm::rotate(rotation_, angle, axis);
 }
 
-void Transform::rotateEuler(float x, float y, float z)
-{
-
-    glm::quat rot(glm::vec3(x, y, z));
-    std::cout << 
-        rot.x << " " <<
-        rot.y << " " <<
-        rot.z << " " <<
-        rot.w << " " <<
-        std::endl;
-
-    rotation_ = rot * rotation_;
-
-    std::cout << 
-        rotation_.x << " " <<
-        rotation_.y << " " <<
-        rotation_.z << " " <<
-        rotation_.w << " " <<
-        std::endl;
-}
-
 void Transform::setPosition(float x, float y, float z)
 {
     position_.x = x;
