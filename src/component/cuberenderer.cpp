@@ -40,7 +40,10 @@ void CubeRenderer::update()
 
     // update transformation
     Transform& t = entity()->getComponent<Transform>();
-    t.rotate(glm::radians((float)deltaTime * turnSpeed), glm::vec3(0.0f, 1.0f, 0.0f));
+
+    t.setScale(1.0f + sin((float)time) * 0.2f, 1.0f, 1.0f - sin((float)time) * 0.2f);
+    //t.rotate(glm::radians((float)deltaTime * turnSpeed), glm::vec3(0.0f, 1.0f, 0.0f));
+    //t.setPosition(0.0f, sin(time) * 0.4f, 0.0f);
 
     GLint uniTrans = glGetUniformLocation(shaderProgram(), "model");
 

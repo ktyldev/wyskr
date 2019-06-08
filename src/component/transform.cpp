@@ -78,3 +78,9 @@ void Transform::setPosition(float x, float y, float z)
     position_.z = z;
 }
 
+void Transform::setScale(float x, float y, float z)
+{
+    scale_.x = x;
+    scale_.y = y;
+    scale_.z = z;
+}

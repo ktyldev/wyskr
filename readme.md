@@ -9,7 +9,6 @@ storing todos here temporarily until i can be bothered to organise a trello
 *   refactor framework class -> main, program
 *   create shader registry to stop shaders getting compiled multiple times
 *   create scene graph
-*   transforms
 *   load 3d models
 *   make main loop framerate independent, currently relying on sdl's frame cap
 *   handle fullscreen window
