@@ -33,13 +33,16 @@ using ComponentArray = std::array<Component*, maxComponents>;
 class Component
 {
 public:
-    Entity* entity;
-
     virtual bool initialise() = 0;
     virtual void update() {}
     virtual void render() {}
 
     virtual ~Component() {}
+
+    void setEntity(Entity& entity) { entity_ = &entity; }
+    Entity* entity() const { return entity_; }
+private:
+    Entity* entity_;
 };
 
 class Entity
@@ -71,14 +74,13 @@ public:
     T& addComponent(TArgs&&... args)
     {
         T* c(new T(std::forward<TArgs>(args)...)); 
-        c->entity = this;
+        c->setEntity(*this);
         std::unique_ptr<Component> uPtr{ c };        
         components_.emplace_back(std::move(uPtr));
 
         componentArray_[getComponentTypeId<T>()] = c;
         componentBitSet_[getComponentTypeId<T>()] = true;
 
-        c->initialise();
         return *c;
     }
 
