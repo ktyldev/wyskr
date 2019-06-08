@@ -1,4 +1,5 @@
 #include "component/cuberenderer.hpp"
+#include "component/transform.hpp"
 
 CubeRenderer::CubeRenderer() : CubeRenderer(
     "res/shader/shader.vert",
@@ -22,6 +23,7 @@ void CubeRenderer::update()
 
     // TODO: factor out to non-renderer class
     double time = Time::time();
+    double deltaTime = Time::deltaTime();
 
     float turnSpeed = 50.0f;
 
@@ -38,9 +40,15 @@ void CubeRenderer::update()
     glUniform3fv(uniLightVector, 1, glm::value_ptr(lightVector));
 
     // update transformation
-    glm::mat4 trans = glm::mat4(1.0f);
-    trans = glm::rotate(trans, glm::radians((float)time * turnSpeed), glm::vec3(0.0f, 1.0f, 0.0f)); 
+    //glm::mat4 trans = glm::mat4(1.0f);
+    //trans = glm::rotate(trans, glm::radians((float)time * turnSpeed), glm::vec3(0.0f, 1.0f, 0.0f)); 
+
+    Transform& t = entity()->getComponent<Transform>();
+    t.rotateEuler(0.0f, glm::radians((float)deltaTime * turnSpeed), 0.0f);
+
     GLint uniTrans = glGetUniformLocation(shaderProgram(), "model");
+    glm::mat4 trans = t.local();
+
     glUniformMatrix4fv(uniTrans, 1, GL_FALSE, glm::value_ptr(trans));
 }
 
