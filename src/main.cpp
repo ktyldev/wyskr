@@ -9,6 +9,7 @@
 
 #include "ecs.hpp"
 #include "component/cuberenderer.hpp"
+#include "component/transform.hpp"
 
 #define DEFAULT_WIDTH   800
 #define DEFAULT_HEIGHT  600
@@ -83,6 +84,7 @@ bool Framework::initialise()
     createContext();
 
     Colour c(1.0f, 0.0f, 0.0f);
+    testEntity.addComponent<Transform>();
     testEntity.addComponent<CubeRenderer>();
     testEntity.getComponent<CubeRenderer>().setColour(c);
 
