@@ -36,7 +36,6 @@ public:
     void setScale(float x, float y, float z);
 
 private:
-
     glm::mat4 local_;
 
     // local transformations
