@@ -15,15 +15,14 @@
 #define DEFAULT_HEIGHT  600
 #define FIELD_OF_VIEW   90  
 
-Framework       framework_;
+Framework               framework;
+EntityComponentSystem   ecs;
 
-// ecs manager
-ECSManager ecs;
 auto& testEntity(ecs.addEntity());
 
 int main(int argc, char *argv[]) 
 {
-    framework_.run();
+    framework.run();
 }
 
 Framework::Framework() : Framework(DEFAULT_WIDTH, DEFAULT_HEIGHT)
@@ -33,7 +32,7 @@ Framework::Framework() : Framework(DEFAULT_WIDTH, DEFAULT_HEIGHT)
 Framework::Framework(unsigned int width, unsigned int height)
 {
     Screen::initialise(width, height);
-    framework_ = *this; 
+    framework = *this; 
 }
 
 Framework::~Framework() 
