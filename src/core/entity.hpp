@@ -1,16 +1,21 @@
 // entity is fully implemented in the header file until i can figure out
 // how to move those pesky template functions into an implementor
 
+// TODO: implement copy constructor
+
 #pragma once
 
 #include <memory>
 #include <vector>
 #include <bitset>
 
+#include "core/node.hpp"
 #include "core/componenttype.hpp"
 #include "core/component.hpp"
 
 class Component;
+
+typedef std::shared_ptr<Entity> EntityPtr;
 
 // maximum number of components an entity is able to hold
 constexpr std::size_t maxComponents = 32;
@@ -18,9 +23,11 @@ constexpr std::size_t maxComponents = 32;
 using ComponentBitSet = std::bitset<maxComponents>;
 using ComponentArray = std::array<Component*, maxComponents>;
 
-class Entity
+class Entity : public Node
 {
 public:
+    Entity(std::string name) : Node(name) {}
+
     bool initialise()
     {
         for (auto& c : components_)
@@ -67,6 +74,7 @@ public:
     }
 
 private:
+
     bool active_ = true;
     std::vector<std::unique_ptr<Component>> components_;
 

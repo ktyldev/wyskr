@@ -12,11 +12,7 @@ Renderer::Renderer(std::string vsPath, std::string fsPath) :
 
 bool Renderer::initialise()
 {
-    createVertexBuffer();
-    createElementBuffer();
-
     compileShaders();
-    setShaderAttributes();
 
     return true;
 }
@@ -29,6 +25,11 @@ void Renderer::render()
 {
     updateView();
     updateProjection();
+
+    createVertexBuffer();
+    createElementBuffer();
+
+    setShaderAttributes();
 }
 
 void Renderer::updateView()
@@ -47,7 +48,8 @@ void Renderer::compileShaders()
 {
     shaderProgram_ = loadShaders();
 
-    // TODO: i get the feeling this will cause pain if i start using multiple vertex shaders
+    // TODO: i get the feeling this will cause pain if i start 
+    // using multiple vertex shaders
     glUseProgram(shaderProgram_);   
 }
 

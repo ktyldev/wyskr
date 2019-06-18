@@ -18,8 +18,6 @@
 Framework               framework;
 EntityComponentSystem   ecs;
 
-auto& testEntity(ecs.addEntity());
-
 int main(int argc, char *argv[]) 
 {
     framework.run();
@@ -82,10 +80,22 @@ bool Framework::initialise()
 {
     createContext();
 
-    Colour c(1.0f, 0.0f, 0.0f);
+    auto& testEntity = ecs.addEntity("test1");
+    auto& testEntity2 = ecs.addEntity("test2");
+
+    Colour c1(1.0f, 0.0f, 0.0f);
+    Colour c2(0.0f, 0.0f, 1.0f);
+
     testEntity.addComponent<Transform>();
     testEntity.addComponent<CubeRenderer>();
-    testEntity.getComponent<CubeRenderer>().setColour(c);
+    testEntity.getComponent<CubeRenderer>().setColour(c1);
+
+    testEntity2.addComponent<Transform>();
+    testEntity2.addComponent<CubeRenderer>();
+    testEntity2.getComponent<CubeRenderer>().setColour(c2);
+
+    //testEntity2.setParent(std::make_shared<Node>(testEntity));
+    testEntity2.getComponent<Transform>().translate(1.5f, 0.0f, 0.0f);
 
     return ecs.initialise();
 }

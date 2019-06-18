@@ -39,9 +39,9 @@ public:
             std::end(entities_)); 
     }
 
-    Entity& addEntity()
+    Entity& addEntity(std::string name)
     {
-        Entity* e = new Entity();
+        Entity* e = new Entity(name);
         std::unique_ptr<Entity> uPtr{ e };
         entities_.emplace_back(std::move(uPtr));
 

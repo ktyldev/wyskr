@@ -20,14 +20,10 @@ bool CubeRenderer::initialise()
 void CubeRenderer::update()
 {
     Renderer::update();
+}
 
-    double time = Time::time();
-    double deltaTime = Time::deltaTime();
-
-    float turnSpeed = 50.0f;
-
-    // TODO: these things are being done by the shader, shouldn't be in update
-
+void CubeRenderer::render()
+{
     // update lighting
     glm::vec3 ambientColour = glm::vec3(0.0f, 0.3f, 0.3f);
     GLint uniAmbient = glGetUniformLocation(shaderProgram(), "ambient");
@@ -41,6 +37,7 @@ void CubeRenderer::update()
     // update transformation
     Transform& t = entity()->getComponent<Transform>();
 
+    double time = Time::time();
     t.setScale(1.0f + sin((float)time) * 0.2f, 1.0f, 1.0f - sin((float)time) * 0.2f);
     //t.rotate(glm::radians((float)deltaTime * turnSpeed), glm::vec3(0.0f, 1.0f, 0.0f));
     //t.setPosition(0.0f, sin(time) * 0.4f, 0.0f);
@@ -48,10 +45,8 @@ void CubeRenderer::update()
     GLint uniTrans = glGetUniformLocation(shaderProgram(), "model");
 
     glUniformMatrix4fv(uniTrans, 1, GL_FALSE, glm::value_ptr(t.local()));
-}
 
-void CubeRenderer::render()
-{
+
     Renderer::render();
 
     // enable wireframe
