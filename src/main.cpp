@@ -95,7 +95,7 @@ bool Framework::initialise()
     testEntity2.getComponent<CubeRenderer>().setColour(c2);
 
     //testEntity2.setParent(std::make_shared<Node>(testEntity));
-    testEntity2.getComponent<Transform>().translate(1.5f, 0.0f, 0.0f);
+    testEntity2.getComponent<Transform>().translate(-1.5f, 0.0f, 0.0f);
 
     return ecs.initialise();
 }

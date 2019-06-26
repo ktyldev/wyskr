@@ -35,7 +35,7 @@ void Transform::updateLocal()
     glm::mat4 rotation = glm::mat4_cast(rotation_);
     glm::mat4 scaling = glm::scale(glm::mat4(1.0f), scale_);
 
-    local_ = scaling * rotation * translation;
+    local_ = translation * rotation * scaling;
 }
 
 void Transform::translate(float x, float y, float z) 

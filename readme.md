@@ -6,7 +6,6 @@ A lightweight OpenGL/C++ 3D engine with the goal of simulating a basic solar sys
 
 storing todos here temporarily until i can be bothered to organise a trello
 
-*   fix scaling issues for non-centred transforms
 *   refactor framework class -> main, program
 *   create shader registry to stop shaders getting compiled multiple times
 *   turn camera into component
