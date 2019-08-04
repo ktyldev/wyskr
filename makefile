@@ -7,7 +7,7 @@ TARGET = $(BIN_DIR)/wyskr
 CC = g++
 LIBS = `pkg-config --static --libs glew sdl2`  
 
-CFLAGS = -I$(SRC_DIR) -std=c++17 -Wall
+CFLAGS = -I$(SRC_DIR) -std=c++17 -Wall -lboost_program_options
 
 SRC = $(shell find $(SRC_DIR) -name *.cpp)
 OBJ = $(SRC:%.cpp=%.o)
