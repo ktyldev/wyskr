@@ -1,6 +1,7 @@
 #pragma once
 
 #include "core/core.hpp"
+#include "core/ecs.hpp"
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_opengl.h>
@@ -23,8 +24,9 @@ public:
 
 private:
     // window
-    SDL_Window*     window_;
-    SDL_GLContext   context_;
+    SDL_Window*             window_;
+    SDL_GLContext           context_;
+    EntityComponentSystem   ecs_;
 
     // misc :)
     Colour          backgroundColour_;
