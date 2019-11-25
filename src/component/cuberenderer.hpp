@@ -1,5 +1,7 @@
 #include "renderer.hpp"
+#include "light.h"
 
+// TODO: factor out litrenderer
 class CubeRenderer : public Renderer
 {
 public:
@@ -12,12 +14,20 @@ public:
 
     void setColour(Colour& colour);
 
+    void registerAmbientLight(AmbientLight& light);
+    void registerDirectionalLight(DirectionalLight& light);
+
 protected:
     void createVertexBuffer();
     void createElementBuffer();
 
     void setShaderAttributes();
 
+    void updateLighting();
+
 private:
-    glm::vec3 colour_;
+    Colour colour_;
+
+    std::vector<AmbientLight*> ambientLights_;
+    std::vector<DirectionalLight*> directionalLights_;
 };

@@ -16,6 +16,8 @@ public:
     float g() { return v_.y; };
     float b() { return v_.z; };
 
+    void print();
+
 private:
     glm::vec3 v_;
 };

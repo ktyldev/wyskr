@@ -22,30 +22,44 @@ void CubeRenderer::update()
     Renderer::update();
 }
 
-void CubeRenderer::render()
+void CubeRenderer::updateLighting()
 {
-    // update lighting
-    glm::vec3 ambientColour = glm::vec3(0.0f, 0.3f, 0.3f);
-    GLint uniAmbient = glGetUniformLocation(shaderProgram(), "ambient");
-    glUniform3fv(uniAmbient, 1, glm::value_ptr(ambientColour));
+    // ambient light
+
+    //TODO: implement multiple lights
+    if (ambientLights_.size() != 0)
+    {
+        Colour& ambient = ambientLights_[0]->getColour();
+
+        //glm::vec3 ambientColour = glm::vec3(0.0f, 0.3f, 0.3f);
+        GLint uniAmbient = glGetUniformLocation(shaderProgram(), "ambient");
+        glUniform3fv(uniAmbient, 1, glm::value_ptr(ambient.vec3()));
+    }
+    else
+    {
+        std::cout << "no ambient lights" << std::endl;
+    }
 
     // directional
-    glm::vec3 lightVector = glm::vec3(-0.8f, 0.2f, 0.2f);
-    GLint uniLightVector = glGetUniformLocation(shaderProgram(), "lightVector");
-    glUniform3fv(uniLightVector, 1, glm::value_ptr(lightVector));
+    //glm::vec3 lightVector = glm::vec3(-0.8f, 0.2f, 0.2f);
+    //GLint uniLightVector = glGetUniformLocation(shaderProgram(), "lightVector");
+    //glUniform3fv(uniLightVector, 1, glm::value_ptr(lightVector));
+}
 
+void CubeRenderer::render()
+{
+    updateLighting();
     // update transformation
     Transform& t = entity()->getComponent<Transform>();
 
     double time = Time::time();
-    t.setScale(1.0f + sin((float)time) * 0.2f, 1.0f, 1.0f - sin((float)time) * 0.2f);
+    //t.setScale(1.0f + sin((float)time) * 0.2f, 1.0f, 1.0f - sin((float)time) * 0.2f);
     //t.rotate(glm::radians((float)deltaTime * turnSpeed), glm::vec3(0.0f, 1.0f, 0.0f));
     //t.setPosition(0.0f, sin(time) * 0.4f, 0.0f);
 
     GLint uniTrans = glGetUniformLocation(shaderProgram(), "model");
 
     glUniformMatrix4fv(uniTrans, 1, GL_FALSE, glm::value_ptr(t.local()));
-
 
     Renderer::render();
 
@@ -61,7 +75,19 @@ void CubeRenderer::render()
 
 void CubeRenderer::setColour(Colour& colour)
 {
-    colour_ = colour.vec3();
+    colour_ = colour;
+}
+
+void CubeRenderer::registerAmbientLight(AmbientLight& light)
+{
+    Colour& colour = light.getColour();
+
+    ambientLights_.push_back(&light);
+}
+
+void CubeRenderer::registerDirectionalLight(DirectionalLight& light)
+{
+    directionalLights_.push_back(&light);
 }
 
 void CubeRenderer::setShaderAttributes()
@@ -101,38 +127,39 @@ void CubeRenderer::setShaderAttributes()
 
 void CubeRenderer::createVertexBuffer()
 {
+    glm::vec3 c = colour_.vec3();
     VertexColour vertices[] = 
     {
-    //              x       y      z        colour
-        { glm::vec3(-0.5f,  0.5f, -0.5f), glm::vec3( 0.0f,  0.0f, -1.0f), colour_ },    // back
-        { glm::vec3( 0.5f,  0.5f, -0.5f), glm::vec3( 0.0f,  0.0f, -1.0f), colour_ }, 
-        { glm::vec3( 0.5f, -0.5f, -0.5f), glm::vec3( 0.0f,  0.0f, -1.0f), colour_ }, 
-        { glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec3( 0.0f,  0.0f, -1.0f), colour_ }, 
+    //              x       y      z        normals                         colour
+        { glm::vec3(-0.5f,  0.5f, -0.5f), glm::vec3( 0.0f,  0.0f, -1.0f), c },    // back
+        { glm::vec3( 0.5f,  0.5f, -0.5f), glm::vec3( 0.0f,  0.0f, -1.0f), c }, 
+        { glm::vec3( 0.5f, -0.5f, -0.5f), glm::vec3( 0.0f,  0.0f, -1.0f), c }, 
+        { glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec3( 0.0f,  0.0f, -1.0f), c }, 
                                                             
-        { glm::vec3(-0.5f, -0.5f,  0.5f), glm::vec3( 0.0f,  0.0f,  1.0f), colour_ },    // front
-        { glm::vec3( 0.5f, -0.5f,  0.5f), glm::vec3( 0.0f,  0.0f,  1.0f), colour_ },
-        { glm::vec3( 0.5f,  0.5f,  0.5f), glm::vec3( 0.0f,  0.0f,  1.0f), colour_ },
-        { glm::vec3(-0.5f,  0.5f,  0.5f), glm::vec3( 0.0f,  0.0f,  1.0f), colour_ },
+        { glm::vec3(-0.5f, -0.5f,  0.5f), glm::vec3( 0.0f,  0.0f,  1.0f), c },    // front
+        { glm::vec3( 0.5f, -0.5f,  0.5f), glm::vec3( 0.0f,  0.0f,  1.0f), c },
+        { glm::vec3( 0.5f,  0.5f,  0.5f), glm::vec3( 0.0f,  0.0f,  1.0f), c },
+        { glm::vec3(-0.5f,  0.5f,  0.5f), glm::vec3( 0.0f,  0.0f,  1.0f), c },
                                                                    
-        { glm::vec3(-0.5f,  0.5f,  0.5f), glm::vec3(-1.0f,  0.0f,  0.0f), colour_ },    // left
-        { glm::vec3(-0.5f,  0.5f, -0.5f), glm::vec3(-1.0f,  0.0f,  0.0f), colour_ },
-        { glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec3(-1.0f,  0.0f,  0.0f), colour_ },
-        { glm::vec3(-0.5f, -0.5f,  0.5f), glm::vec3(-1.0f,  0.0f,  0.0f), colour_ },
+        { glm::vec3(-0.5f,  0.5f,  0.5f), glm::vec3(-1.0f,  0.0f,  0.0f), c },    // left
+        { glm::vec3(-0.5f,  0.5f, -0.5f), glm::vec3(-1.0f,  0.0f,  0.0f), c },
+        { glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec3(-1.0f,  0.0f,  0.0f), c },
+        { glm::vec3(-0.5f, -0.5f,  0.5f), glm::vec3(-1.0f,  0.0f,  0.0f), c },
                                                                    
-        { glm::vec3( 0.5f,  0.5f,  0.5f), glm::vec3( 1.0f,  0.0f,  0.0f), colour_ },    // right
-        { glm::vec3( 0.5f,  0.5f, -0.5f), glm::vec3( 1.0f,  0.0f,  0.0f), colour_ },
-        { glm::vec3( 0.5f, -0.5f, -0.5f), glm::vec3( 1.0f,  0.0f,  0.0f), colour_ },
-        { glm::vec3( 0.5f, -0.5f,  0.5f), glm::vec3( 1.0f,  0.0f,  0.0f), colour_ },
+        { glm::vec3( 0.5f,  0.5f,  0.5f), glm::vec3( 1.0f,  0.0f,  0.0f), c },    // right
+        { glm::vec3( 0.5f,  0.5f, -0.5f), glm::vec3( 1.0f,  0.0f,  0.0f), c },
+        { glm::vec3( 0.5f, -0.5f, -0.5f), glm::vec3( 1.0f,  0.0f,  0.0f), c },
+        { glm::vec3( 0.5f, -0.5f,  0.5f), glm::vec3( 1.0f,  0.0f,  0.0f), c },
                                                                    
-        { glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec3( 0.0f, -1.0f,  0.0f), colour_ },    // bottom
-        { glm::vec3( 0.5f, -0.5f, -0.5f), glm::vec3( 0.0f, -1.0f,  0.0f), colour_ },
-        { glm::vec3( 0.5f, -0.5f,  0.5f), glm::vec3( 0.0f, -1.0f,  0.0f), colour_ },
-        { glm::vec3(-0.5f, -0.5f,  0.5f), glm::vec3( 0.0f, -1.0f,  0.0f), colour_ },
+        { glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec3( 0.0f, -1.0f,  0.0f), c },    // bottom
+        { glm::vec3( 0.5f, -0.5f, -0.5f), glm::vec3( 0.0f, -1.0f,  0.0f), c },
+        { glm::vec3( 0.5f, -0.5f,  0.5f), glm::vec3( 0.0f, -1.0f,  0.0f), c },
+        { glm::vec3(-0.5f, -0.5f,  0.5f), glm::vec3( 0.0f, -1.0f,  0.0f), c },
                                                                    
-        { glm::vec3(-0.5f,  0.5f, -0.5f), glm::vec3( 0.0f,  1.0f,  0.0f), colour_ },    // top
-        { glm::vec3( 0.5f,  0.5f, -0.5f), glm::vec3( 0.0f,  1.0f,  0.0f), colour_ },
-        { glm::vec3( 0.5f,  0.5f,  0.5f), glm::vec3( 0.0f,  1.0f,  0.0f), colour_ },
-        { glm::vec3(-0.5f,  0.5f,  0.5f), glm::vec3( 0.0f,  1.0f,  0.0f), colour_ },
+        { glm::vec3(-0.5f,  0.5f, -0.5f), glm::vec3( 0.0f,  1.0f,  0.0f), c },    // top
+        { glm::vec3( 0.5f,  0.5f, -0.5f), glm::vec3( 0.0f,  1.0f,  0.0f), c },
+        { glm::vec3( 0.5f,  0.5f,  0.5f), glm::vec3( 0.0f,  1.0f,  0.0f), c },
+        { glm::vec3(-0.5f,  0.5f,  0.5f), glm::vec3( 0.0f,  1.0f,  0.0f), c },
     };
 
     // vertex array object

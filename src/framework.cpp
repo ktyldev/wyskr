@@ -1,6 +1,7 @@
 #include "framework.hpp"
 #include "component/transform.hpp"
 #include "component/cuberenderer.hpp"
+#include "component/light.h"
 
 // TODO: move these to opengl context
 #define DEFAULT_WIDTH   800
@@ -31,6 +32,8 @@ int Framework::run()
 
     success = mainLoop();
 
+    shutdown();
+
     return success;
 }
 
@@ -59,35 +62,38 @@ int Framework::mainLoop()
         render();
     }
 
-    // clean up
-    SDL_GL_DeleteContext(context_);
-    SDL_Quit();
-
     return 0;
 }
 
 bool Framework::initialise()
 {
+    glFlush();
     createContext();
     
-    // TODO: scene
+    // TODO: scene serialization
     // create entities
     auto& e1 = ecs_.addEntity("test1");
     auto& e2 = ecs_.addEntity("test2");
 
+    // setup ambient light
+    Colour ambientColour(0.1f, 0.1f, 0.1f);
+    AmbientLight ambient(ambientColour);
+
     Colour c1(1.0f, 0.0f, 0.0f);
-    Colour c2(0.0f, 0.0f, 1.0f);
-
     e1.addComponent<Transform>();
-    e1.addComponent<CubeRenderer>();
-    e1.getComponent<CubeRenderer>().setColour(c1);
+    e1.getComponent<Transform>().translate(0.75f, 0.0f, 0.0f);
+    CubeRenderer& cube(e1.addComponent<CubeRenderer>());
+    cube.setColour(c1);
+    cube.registerAmbientLight(ambient);
 
+    Colour c2(0.0f, 0.0f, 1.0f);
     e2.addComponent<Transform>();
-    e2.addComponent<CubeRenderer>();
-    e2.getComponent<CubeRenderer>().setColour(c2);
+    e2.getComponent<Transform>().translate(-0.75f, 0.0f, 0.0f);
+    CubeRenderer& cube2(e2.addComponent<CubeRenderer>());
+    cube2.setColour(c2);
+    cube2.registerAmbientLight(ambient);
 
-    //e2.setParent(std::make_shared<Node>(e1));
-    e2.getComponent<Transform>().translate(-1.5f, 0.0f, 0.0f);
+    //e2.setParent(e1.shared_from_this());
 
     return ecs_.initialise();
 }
@@ -104,6 +110,18 @@ void Framework::render()
     ecs_.render();
 
     SDL_GL_SwapWindow(window_);
+}
+
+void Framework::shutdown()
+{
+    std::cout << "cleaning up..." << std::endl;
+
+    // clear graphics memory
+    glFlush();    
+
+    // clean up
+    SDL_GL_DeleteContext(context_);
+    SDL_Quit();
 }
 
 void Framework::clearBackground()

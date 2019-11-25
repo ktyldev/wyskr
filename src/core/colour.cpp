@@ -1,4 +1,5 @@
 #include "colour.hpp"
+#include <iostream>
 
 Colour::Colour()
 {
@@ -20,6 +21,13 @@ void Colour::set(float r, float g, float b)
     v_.x = r;
     v_.y = g;
     v_.z = b;
+}
+
+void Colour::print()
+{
+    std::cout 
+        << "(" << r() << ", " << g() << ", " << b() << ")" 
+        << std::endl;
 }
 
 glm::vec3 Colour::vec3()

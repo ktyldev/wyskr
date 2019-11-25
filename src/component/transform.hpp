@@ -1,4 +1,5 @@
-#include "core/ecs.hpp"
+#include "core/component.h"
+
 #include "core/math.hpp"
 
 // TODO: differentiate between local/global positions

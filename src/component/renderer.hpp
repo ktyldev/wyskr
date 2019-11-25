@@ -1,7 +1,4 @@
-#include <string>
-
-#include "core/core.hpp"
-#include "core/ecs.hpp"
+#include "core/component.h"
 
 class Renderer : public Component
 {
