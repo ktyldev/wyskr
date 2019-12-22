@@ -40,9 +40,12 @@ void Transform::updateLocal()
 
 void Transform::translate(float x, float y, float z) 
 {
-    position_.x += x;
-    position_.y += y;
-    position_.z += z;
+    translate(glm::vec3(x, y, z));
+}
+
+void Transform::translate(glm::vec3 translation)
+{
+    position_ += translation;
 }
 
 void Transform::rotate(float angle, glm::vec3 axis)

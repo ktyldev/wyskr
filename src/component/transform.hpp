@@ -15,6 +15,7 @@ public:
     // METHODS
     // translates in local space
     void translate(float x, float y, float z);
+    void translate(glm::vec3 translation);
     void rotate(float angle, glm::vec3 axis);
 
     //

@@ -70,24 +70,11 @@ bool Framework::initialise()
 {
     createContext();
     
-    // TODO: scene
-    // create entities
-    auto& e1 = ecs_.addEntity("test1");
-    auto& e2 = ecs_.addEntity("test2");
-
-    Colour c1(1.0f, 0.0f, 0.0f);
-    Colour c2(0.0f, 0.0f, 1.0f);
-
-    e1.addComponent<Transform>();
-    e1.addComponent<CubeRenderer>();
-    e1.getComponent<CubeRenderer>().setColour(c1);
-
-    e2.addComponent<Transform>();
-    e2.addComponent<CubeRenderer>();
-    e2.getComponent<CubeRenderer>().setColour(c2);
-
-    //e2.setParent(std::make_shared<Node>(e1));
-    e2.getComponent<Transform>().translate(-1.5f, 0.0f, 0.0f);
+    if (!scene_.load(ecs_))
+    {
+        std::cout << "scene failed to load" << std::endl;
+        return false;
+    }
 
     return ecs_.initialise();
 }
