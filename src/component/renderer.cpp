@@ -4,17 +4,31 @@
 #include "camera.hpp"
 #include "component/renderer.hpp"
 
-Renderer::Renderer(std::string vsPath, std::string fsPath) : 
-    vsPath_(vsPath),
-    fsPath_(fsPath)
+Renderer::Renderer() :
+    material_(nullptr)
 {
+}
+
+Renderer::Renderer(Material& material) 
+{
+    material_ = &material;
 }
 
 bool Renderer::initialise()
 {
-    compileShaders();
+    // TODO: materials should be initialised by material repo, not
+    // by individual renderer components
+    bool success = material_->initialise();
+    if (success)
+    {
+        shaderProgram_ = material_->getShaderProgram();
 
-    return true;
+        // TODO: i get the feeling this will cause pain if i start 
+        // using multiple vertex shaders
+        glUseProgram(shaderProgram_);   
+    }
+
+    return success;
 }
 
 void Renderer::update()
@@ -23,13 +37,32 @@ void Renderer::update()
 
 void Renderer::render()
 {
+    if (material_ == nullptr)
+    {
+        std::cout << "renderer error: no material set" << std::endl;
+        return;
+    }
+
     updateView();
     updateProjection();
 
     createVertexBuffer();
     createElementBuffer();
 
-    setShaderAttributes();
+    material_->setShaderAttributes();
+}
+
+void Renderer::setMaterial(Material& material)
+{
+    material_ = &material;
+    //material.getColour().print();
+    std::cout << "set material " << material_->getName() << " colour: ";
+    material_->getColour().print();
+}
+
+Material& Renderer::getMaterial()
+{
+    return *material_;
 }
 
 void Renderer::updateView()
@@ -44,82 +77,4 @@ void Renderer::updateProjection()
     glUniformMatrix4fv(uniProjection, 1, GL_FALSE, glm::value_ptr(Camera::main()->projection()));
 }
 
-void Renderer::compileShaders()
-{
-    shaderProgram_ = loadShaders();
-
-    // TODO: i get the feeling this will cause pain if i start 
-    // using multiple vertex shaders
-    glUseProgram(shaderProgram_);   
-}
-
-GLuint Renderer::loadShaders()
-{
-    printf("reading shaders...\n");
-    GLuint vertShader = glCreateShader(GL_VERTEX_SHADER);
-    GLuint fragShader = glCreateShader(GL_FRAGMENT_SHADER);
-
-    // read shaders
-    std::string vertShaderStr = readFile(vsPath_.c_str(), true).data();
-    std::string fragShaderStr = readFile(fsPath_.c_str(), true).data();
-    const char* vertShaderSrc = vertShaderStr.c_str();
-    const char* fragShaderSrc = fragShaderStr.c_str();
-
-    GLint result = GL_FALSE;
-    int logLength;
-
-    // compile vertex shader
-    printf("compiling vertex shader...\n");
-    glShaderSource(vertShader, 1, &vertShaderSrc, NULL);
-    glCompileShader(vertShader);
-
-    // check vertex shader
-    glGetShaderiv(vertShader, GL_COMPILE_STATUS, &result);
-    glGetShaderiv(vertShader, GL_INFO_LOG_LENGTH, &logLength);
-    std::vector<char> vertShaderError(logLength > 1 ? logLength : 1);
-    glGetShaderInfoLog(vertShader, logLength, NULL, &vertShaderError[0]);
-    if (logLength > 1)
-    {
-        std::cout << &vertShaderError[0] << std::endl;
-    }
-
-    // compile fragment shader
-    printf("compiling fragment shader...\n");
-    glShaderSource(fragShader, 1, &fragShaderSrc, NULL);
-    glCompileShader(fragShader);
-
-    // check fragment shader
-    glGetShaderiv(fragShader, GL_COMPILE_STATUS, &result);
-    glGetShaderiv(fragShader, GL_INFO_LOG_LENGTH, &logLength);
-    std::vector<char> fragShaderError(logLength > 1 ? logLength : 1);
-    glGetShaderInfoLog(fragShader, logLength, NULL, &fragShaderError[0]);
-    if (logLength > 1)
-    {
-        std::cout << &fragShaderError[0] << std::endl;
-    }
-
-    printf("linking program...\n");
-    GLuint program = glCreateProgram();
-    glAttachShader(program, vertShader);
-    glAttachShader(program, fragShader);
-
-    glLinkProgram(program);
-
-    glGetProgramiv(program, GL_LINK_STATUS, &result);
-    glGetProgramiv(program, GL_INFO_LOG_LENGTH, &logLength);
-    std::vector<char> programError(logLength > 1 ? logLength : 1);
-    glGetProgramInfoLog(program, logLength, NULL, &programError[0]);
-    if (logLength > 1)
-    {
-        std::cout << &programError[0] << std::endl;
-    }
-
-    glDetachShader(program, vertShader);
-    glDetachShader(program, fragShader);
-
-    glDeleteShader(vertShader);
-    glDeleteShader(fragShader);
-
-    return program;
-}
 

@@ -7,20 +7,19 @@ Scene::Scene()
 {
 }
 
-bool Scene::load(EntityComponentSystem& ecs) 
+bool Scene::load(EntityComponentSystem& ecs, MaterialRepo& materials) 
 {
     struct CubeData
     {
         std::string name;
-        Colour&     colour;
+        std::string materialName;
         glm::vec3   offset;
     };
-    Colour red(1.0f, 0.0f, 0.0f);
-    Colour blue(0.0f, 0.0f, 1.0f);
 
     std::vector<CubeData> cubes; 
-    cubes.push_back({ "red_cube",   red,    glm::vec3(0.75f, 0.0f, -0.5f) });
-    cubes.push_back({ "blue_cube",  blue,   glm::vec3(-0.75f, 0.0f, 0.5f) });
+
+    cubes.push_back({ "green_cube", "green",    glm::vec3(0.5f, 0.0f, -0.75f) });
+    cubes.push_back({ "red_cube",    "red",     glm::vec3(-0.75f, 0.0f, 0.5f) });
 
     for (int i = 0; i < (int)cubes.size(); ++i)
     {
@@ -31,7 +30,18 @@ bool Scene::load(EntityComponentSystem& ecs)
         auto& transform = entity.addComponent<Transform>();
         auto& renderer = entity.addComponent<CubeRenderer>();
 
-        renderer.setColour(cubes[i].colour);
+        std::string matName = cubes[i].materialName;
+        if (!materials.hasMaterial(matName))
+        {
+            std::cout << "could not locate material: " << matName << std::endl;
+            continue;
+        }
+        Material& material = materials.getMaterial(matName);
+
+        std::cout << "created material ";
+        material.getColour().print();
+
+        renderer.setMaterial(material);
         transform.translate(cubes[i].offset);
     }
 

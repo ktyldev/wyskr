@@ -4,7 +4,7 @@ class CubeRenderer : public Renderer
 {
 public:
     CubeRenderer();
-    CubeRenderer(std::string vsPath, std::string fsPath);
+    CubeRenderer(Material& material);
 
     bool initialise();
     void update();
@@ -17,7 +17,4 @@ protected:
     void createElementBuffer();
 
     void setShaderAttributes();
-
-private:
-    glm::vec3 colour_;
 };

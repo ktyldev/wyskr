@@ -5,7 +5,7 @@
 // TODO: move these to opengl context
 #define DEFAULT_WIDTH   800
 #define DEFAULT_HEIGHT  600
-#define FIELD_OF_VIEW   90
+#define FIELD_OF_VIEW   110
 
 Framework::Framework() : Framework(DEFAULT_WIDTH, DEFAULT_HEIGHT)
 {
@@ -32,6 +32,11 @@ int Framework::run()
     success = mainLoop();
 
     return success;
+}
+
+const MaterialRepo& Framework::materials() const 
+{
+    return materials_;
 }
 
 int Framework::mainLoop()
@@ -68,9 +73,24 @@ int Framework::mainLoop()
 
 bool Framework::initialise()
 {
+    // register materials
+    materials_.registerMaterial("green", "res/shader/shader.vert", "res/shader/shader.frag");
+    Colour green(0.0f, 1.0f, 0.0f);
+    materials_.getMaterial("green").setColour(green);
+
+    std::cout << "made green material: ";
+    materials_.getMaterial("green").getColour().print();
+
+    materials_.registerMaterial("red", "res/shader/shader.vert", "res/shader/shader.frag");
+    Colour red(1.0f, 0.0f, 0.0f);
+    materials_.getMaterial("red").setColour(red);
+
+    std::cout << "made red material: ";
+    materials_.getMaterial("red").getColour().print();
+
     createContext();
     
-    if (!scene_.load(ecs_))
+    if (!scene_.load(ecs_, materials_))
     {
         std::cout << "scene failed to load" << std::endl;
         return false;

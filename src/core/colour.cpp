@@ -1,3 +1,5 @@
+#include <iostream>
+
 #include "colour.hpp"
 
 Colour::Colour()
@@ -6,6 +8,11 @@ Colour::Colour()
 }
 
 Colour::Colour(Colour& c)
+{
+    set(c.r(), c.g(), c.b());
+}
+
+Colour::Colour(const Colour& c)
 {
     set(c.r(), c.g(), c.b());
 }
@@ -22,7 +29,12 @@ void Colour::set(float r, float g, float b)
     v_.z = b;
 }
 
-glm::vec3 Colour::vec3()
+glm::vec3 Colour::vec3() const
 {
     return v_;
+}
+
+void Colour::print() const
+{
+    std::cout << "(" << r() << ", " << g() << ", " << b() << ")" << std::endl;
 }

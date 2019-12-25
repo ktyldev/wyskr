@@ -3,6 +3,7 @@
 #include "core/core.hpp"
 #include "core/ecs.hpp"
 #include "core/scene.hpp"
+#include "core/materialrepo.hpp"
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_opengl.h>
@@ -23,16 +24,20 @@ public:
     void render();
     void shutdown();
 
+    const MaterialRepo& materials() const;
+
 private:
     // window
     SDL_Window*             window_;
     SDL_GLContext           context_;
-    EntityComponentSystem   ecs_;
-    Scene                   scene_;
 
     // misc :)
-    Colour          backgroundColour_;
+    MaterialRepo            materials_;
+    EntityComponentSystem   ecs_;
+    Scene                   scene_;
+    Colour                  backgroundColour_;
 
+    // methods
     int mainLoop();
     void createContext();
     void clearBackground();
