@@ -1,6 +1,7 @@
-#include "component/cube_renderer.hpp"
 #include "component/transform.hpp"
-#include "component/camera.hpp"
+
+#include "cube_renderer.hpp"
+#include "camera.hpp"
 
 CubeRenderer::CubeRenderer() :
     Renderer()

@@ -2,7 +2,7 @@
 #include <vector>
 
 #include "camera.hpp"
-#include "component/renderer.hpp"
+#include "renderer.hpp"
 
 Renderer::Renderer() :
     material_(nullptr)

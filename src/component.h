@@ -3,6 +3,6 @@
 #include "component/transform.hpp"
 
 // rendering
-#include "component/camera.hpp"
-#include "component/cube_renderer.hpp"
+#include "component/rendering/camera.hpp"
+#include "component/rendering/cube_renderer.hpp"
 
