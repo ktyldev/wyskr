@@ -1,4 +1,4 @@
-#include "component/cuberenderer.hpp"
+#include "component/cube_renderer.hpp"
 #include "component/transform.hpp"
 
 CubeRenderer::CubeRenderer() :

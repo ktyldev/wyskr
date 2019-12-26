@@ -10,7 +10,7 @@
 #include <bitset>
 
 #include "core/node.hpp"
-#include "core/componenttype.hpp"
+#include "core/component_type.hpp"
 #include "core/component.hpp"
 
 class Component;

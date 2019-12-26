@@ -3,7 +3,9 @@
 #include "core/core.hpp"
 #include "core/ecs.hpp"
 #include "core/scene.hpp"
-#include "core/materialrepo.hpp"
+#include "core/material_repo.hpp"
+
+#include "component.h"
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_opengl.h>

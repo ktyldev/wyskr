@@ -1,6 +1,6 @@
+#include "component.h"
+
 #include "framework.hpp"
-#include "component/transform.hpp"
-#include "component/cuberenderer.hpp"
 
 // TODO: move these to opengl context
 #define DEFAULT_WIDTH   800

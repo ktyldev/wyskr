@@ -1,7 +1,7 @@
 #pragma once
 
 #include "core/ecs.hpp"
-#include "core/materialrepo.hpp"
+#include "core/material_repo.hpp"
 
 class Scene
 {

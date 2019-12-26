@@ -1,7 +1,6 @@
 #include "core/scene.hpp"
 
-#include "component/transform.hpp"
-#include "component/cuberenderer.hpp"
+#include "component.h"
 
 Scene::Scene() 
 {
