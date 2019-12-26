@@ -7,6 +7,12 @@
 class Colour
 {
 public:
+    static const Colour black;
+    static const Colour white;
+    static const Colour red;     
+    static const Colour green;  
+    static const Colour blue;    
+
     Colour();
     Colour(Colour& c);
     Colour(const Colour& c);

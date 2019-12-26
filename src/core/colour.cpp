@@ -2,6 +2,12 @@
 
 #include "colour.hpp"
 
+const Colour Colour::black  (0.0f, 0.0f, 0.0f);
+const Colour Colour::white  (1.0f, 1.0f, 1.0f);
+const Colour Colour::red    (1.0f, 0.0f, 0.0f);
+const Colour Colour::green  (0.0f, 1.0f, 0.0f);
+const Colour Colour::blue   (0.0f, 0.0f, 1.0f);
+
 Colour::Colour()
 {
     set(0, 0, 0);

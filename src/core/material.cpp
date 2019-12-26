@@ -37,16 +37,9 @@ bool Material::initialise()
     return true;
 }
 
-void Material::setColour(Colour& colour)
+void Material::setColour(const Colour& colour)
 {
-    //std::cout << "setting colour from ";
-    //colour.print();
-
     colour_ = colour;
-
-    //std::cout << "to ";
-    //colour_.print();
-    //colour_.print();
 }
 
 const Colour& Material::getColour() const

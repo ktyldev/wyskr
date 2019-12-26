@@ -13,7 +13,7 @@ public:
     bool            initialise();
 
     // properties
-    void            setColour(Colour& colour);
+    void            setColour(const Colour& colour);
     const Colour&   getColour() const;
 
     void            setShaderAttributes();

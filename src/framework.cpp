@@ -75,18 +75,10 @@ bool Framework::initialise()
 {
     // register materials
     materials_.registerMaterial("green", "res/shader/shader.vert", "res/shader/shader.frag");
-    Colour green(0.0f, 1.0f, 0.0f);
-    materials_.getMaterial("green").setColour(green);
-
-    std::cout << "made green material: ";
-    materials_.getMaterial("green").getColour().print();
+    materials_.getMaterial("green").setColour(Colour::green);
 
     materials_.registerMaterial("red", "res/shader/shader.vert", "res/shader/shader.frag");
-    Colour red(1.0f, 0.0f, 0.0f);
-    materials_.getMaterial("red").setColour(red);
-
-    std::cout << "made red material: ";
-    materials_.getMaterial("red").getColour().print();
+    materials_.getMaterial("red").setColour(Colour::red);
 
     createContext();
     
