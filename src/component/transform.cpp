@@ -53,6 +53,11 @@ void Transform::rotate(float angle, glm::vec3 axis)
     rotation_ = glm::rotate(rotation_, angle, axis);
 }
 
+void Transform::setPosition(glm::vec3 position)
+{
+    position_ = position;
+}
+
 void Transform::setPosition(float x, float y, float z)
 {
     position_.x = x;

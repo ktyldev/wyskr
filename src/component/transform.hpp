@@ -34,6 +34,7 @@ public:
     // SETTERS
     // 
     // all setters refer to local position
+    void setPosition(glm::vec3 position);
     void setPosition(float x, float y, float z);
     void setRotation(float x, float y, float z, float w);
     void setScale(float x, float y, float z);

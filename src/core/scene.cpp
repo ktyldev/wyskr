@@ -28,8 +28,8 @@ void Scene::addCubes()
 
     std::vector<CubeData> cubes; 
 
-    float yBase = -3.0f;
-    float z = 2.0f;
+    float yBase = -2.0f;
+    float z = 0.0f;
     
     cubes.push_back({ "cube_green_2_0", "green", glm::vec3(     0, yBase + 3, z) });
 
@@ -78,6 +78,7 @@ void Scene::addCamera()
     // add components
     auto& transform = entity.addComponent<Transform>();
     auto& camera = entity.addComponent<Camera>();
+    entity.addComponent<CameraOrbit>();
 
     transform.translate(startPos);
 }

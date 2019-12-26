@@ -33,7 +33,7 @@ void CubeRenderer::render()
     };
     Light light;
     light.colour = Colour::white.vec3();
-    light.position = glm::vec4(glm::vec3(1, 2, -1), 0);
+    light.position = glm::vec4(glm::vec3(1, 2, 1), 0);
 
     // camera position
     glm::vec3 cameraPosition = Camera::main()
