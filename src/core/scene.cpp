@@ -28,8 +28,19 @@ void Scene::addCubes()
 
     std::vector<CubeData> cubes; 
 
-    cubes.push_back({ "cube_green", "green",    glm::vec3(0.75f, 0.0f, 0.75f) });
-    cubes.push_back({ "cube_red",   "red",      glm::vec3(-0.75f, 0.0f, 0.5f) });
+    float yBase = -3.0f;
+    float z = 2.0f;
+    
+    cubes.push_back({ "cube_green_2_0", "green", glm::vec3(     0, yBase + 3, z) });
+
+    cubes.push_back({ "cube_green_1_0", "green", glm::vec3( -0.5f, yBase + 2, z) });
+    cubes.push_back({ "cube_green_1_1", "green", glm::vec3(  0.5f, yBase + 2, z) });
+
+    cubes.push_back({ "cube_green_0_0", "green", glm::vec3(  1.0f, yBase + 1, z) });
+    cubes.push_back({ "cube_green_0_1", "green", glm::vec3(  0.0f, yBase + 1, z) });
+    cubes.push_back({ "cube_green_0_2", "green", glm::vec3( -1.0f, yBase + 1, z) });
+
+    cubes.push_back({ "cube_red",   "red",      glm::vec3(0, yBase, z) });
 
     for (int i = 0; i < (int)cubes.size(); ++i)
     {

@@ -1,5 +1,6 @@
 #include "component/cube_renderer.hpp"
 #include "component/transform.hpp"
+#include "component/camera.hpp"
 
 CubeRenderer::CubeRenderer() :
     Renderer()
@@ -24,6 +25,22 @@ void CubeRenderer::update()
 void CubeRenderer::render()
 {
     // lighting
+    struct Light
+    {
+        glm::vec3 colour;
+        glm::vec4 position;
+    };
+    Light light;
+    light.colour = Colour::white.vec3();
+    light.position = glm::vec4(glm::vec3(1, 2, -1), 0);
+
+    // camera position
+    glm::vec3 cameraPosition = Camera::main()
+        ->entity()
+        ->getComponent<Transform>()
+        .position();
+    GLint uniCamPos = glGetUniformLocation(shaderProgram(), "cameraPosition");
+    glUniform3fv(uniCamPos, 1, glm::value_ptr(cameraPosition));
 
     // ambient
     glm::vec3 ambientColour = glm::vec3(0.1f, 0.1f, 0.1f);
@@ -31,15 +48,17 @@ void CubeRenderer::render()
     glUniform3fv(uniAmbient, 1, glm::value_ptr(ambientColour));
 
     // directional
-    glm::vec3 lightVector = glm::vec3(-0.8f, 0.2f, 0.2f);
-    GLint uniLightVector = glGetUniformLocation(shaderProgram(), "lightVector");
-    glUniform3fv(uniLightVector, 1, glm::value_ptr(lightVector));
+    GLint uniLightColour = glGetUniformLocation(shaderProgram(), "lightColour");
+    glUniform3fv(uniLightColour, 1, glm::value_ptr(light.colour));
+
+    GLint uniLightPos = glGetUniformLocation(shaderProgram(), "lightPosition");
+    glUniform4fv(uniLightPos, 1, glm::value_ptr(light.position));
 
     // update transformation
     Transform& t = entity()->getComponent<Transform>();
 
     double time = Time::time();
-    t.setScale(1.0f + sin((float)time) * 0.2f, 1.0f, 1.0f - sin((float)time) * 0.2f);
+    //t.setScale(1.0f + sin((float)time) * 0.2f, 1.0f, 1.0f - sin((float)time) * 0.2f);
     //t.rotate(glm::radians((float)deltaTime * turnSpeed), glm::vec3(0.0f, 1.0f, 0.0f));
     //t.setPosition(0.0f, sin(time) * 0.4f, 0.0f);
 
