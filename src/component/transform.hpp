@@ -1,3 +1,5 @@
+#pragma once
+
 #include "core/ecs.hpp"
 #include "core/math.hpp"
 

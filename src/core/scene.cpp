@@ -8,6 +8,17 @@ Scene::Scene()
 
 bool Scene::load(EntityComponentSystem& ecs, MaterialRepo& materials) 
 {
+    ecs_        = &ecs;
+    materials_  = &materials;
+
+    addCubes();
+    addCamera();
+
+    return true;
+}
+
+void Scene::addCubes()
+{
     struct CubeData
     {
         std::string name;
@@ -17,33 +28,45 @@ bool Scene::load(EntityComponentSystem& ecs, MaterialRepo& materials)
 
     std::vector<CubeData> cubes; 
 
-    cubes.push_back({ "green_cube", "green",    glm::vec3(0.5f, 0.0f, -0.75f) });
-    cubes.push_back({ "red_cube",    "red",     glm::vec3(-0.75f, 0.0f, 0.5f) });
+    cubes.push_back({ "cube_green", "green",    glm::vec3(0.75f, 0.0f, 0.75f) });
+    cubes.push_back({ "cube_red",   "red",      glm::vec3(-0.75f, 0.0f, 0.5f) });
 
     for (int i = 0; i < (int)cubes.size(); ++i)
     {
         // create entity
-        auto& entity = ecs.addEntity(cubes[i].name);
+        auto& entity = ecs_->addEntity(cubes[i].name);
 
         // add components
         auto& transform = entity.addComponent<Transform>();
         auto& renderer = entity.addComponent<CubeRenderer>();
 
         std::string matName = cubes[i].materialName;
-        if (!materials.hasMaterial(matName))
+        if (!materials_->hasMaterial(matName))
         {
             std::cout << "could not locate material: " << matName << std::endl;
             continue;
         }
-        Material& material = materials.getMaterial(matName);
+        Material& material = materials_->getMaterial(matName);
 
-        std::cout << "created material ";
-        material.getColour().print();
+        //std::cout << "created material ";
+        //material.getColour().print();
 
         renderer.setMaterial(material);
         transform.translate(cubes[i].offset);
     }
-
-    return true;
 }
 
+void Scene::addCamera()
+{
+    glm::vec3 startPos(0, 1, -2);
+    glm::vec3 target(0, 0, 0);
+
+    // create entity
+    auto&entity = ecs_->addEntity("camera");
+
+    // add components
+    auto& transform = entity.addComponent<Transform>();
+    auto& camera = entity.addComponent<Camera>();
+
+    transform.translate(startPos);
+}

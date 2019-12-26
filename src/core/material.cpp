@@ -24,7 +24,7 @@ Material::Material(const Material& other) :
 bool Material::initialise()
 {
     // compile shaders
-    std::cout << "compiling shaders for material " << name_ << std::endl;
+    // std::cout << "compiling shaders for material " << name_ << std::endl;
     GLuint vert = compileShader(vsPath_, GL_VERTEX_SHADER);
     GLuint frag = compileShader(fsPath_, GL_FRAGMENT_SHADER);
 
@@ -77,7 +77,7 @@ void Material::linkShaders(GLuint vert, GLuint frag)
     GLint result = GL_FALSE;
     int logLength;
 
-    std::cout << "linking shader program" << std::endl;
+    // std::cout << "linking shader program" << std::endl;
 
     // create program, attach shaders
     shaderProgram_ = glCreateProgram();
@@ -103,7 +103,7 @@ void Material::linkShaders(GLuint vert, GLuint frag)
 
 GLuint Material::compileShader(std::string path, GLenum type)
 {
-    std::cout << "compiling shader " << path << std::endl;
+    //std::cout << "compiling shader " << path << std::endl;
 
     GLuint shader = glCreateShader(type);
 

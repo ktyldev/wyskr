@@ -15,8 +15,7 @@ these are listed in approximate order of priority
 
 ### opengl
 
-*   create shader registry to stop shaders getting compiled multiple times
-*   turn camera into component
+*   find some way to optimise shader usage - it's possible for shaders to be compiled multiple times as part of different materials
 *   make main loop framerate independent, currently relying on sdl's frame cap
 *   use cmake to handle cross-platform development
 *   load models

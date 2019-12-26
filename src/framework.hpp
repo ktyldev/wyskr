@@ -35,8 +35,8 @@ private:
 
     // misc :)
     MaterialRepo            materials_;
-    EntityComponentSystem   ecs_;
     Scene                   scene_;
+    EntityComponentSystem   ecs_;
     Colour                  backgroundColour_;
 
     // methods

@@ -9,5 +9,12 @@ public:
     Scene();
 
     bool load(EntityComponentSystem& ecs, MaterialRepo& materials);
+
+private:
+    EntityComponentSystem*  ecs_;
+    MaterialRepo*           materials_;
+
+    void addCubes();
+    void addCamera();
 };
 

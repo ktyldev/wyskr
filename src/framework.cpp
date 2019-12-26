@@ -24,11 +24,13 @@ int Framework::run()
 {
     displaySplash();
 
+    std::cout << "## initialise ##" << std::endl;
     bool success = initialise();
 
     if (!success) 
         return -1;
 
+    std::cout << "## loop start ##" << std::endl;
     success = mainLoop();
 
     return success;

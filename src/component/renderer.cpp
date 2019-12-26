@@ -56,8 +56,8 @@ void Renderer::setMaterial(Material& material)
 {
     material_ = &material;
     //material.getColour().print();
-    std::cout << "set material " << material_->getName() << " colour: ";
-    material_->getColour().print();
+    //std::cout << "set material " << material_->getName() << " colour: ";
+    //material_->getColour().print();
 }
 
 Material& Renderer::getMaterial()
