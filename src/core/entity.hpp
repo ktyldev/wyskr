@@ -23,10 +23,13 @@ constexpr std::size_t maxComponents = 32;
 using ComponentBitSet = std::bitset<maxComponents>;
 using ComponentArray = std::array<Component*, maxComponents>;
 
-class Entity : public Node
+class Entity
 {
 public:
-    Entity(std::string name) : Node(name) {}
+    Entity(std::string name)
+    {
+        node_ = Node::create(name);
+    }
 
     bool initialise()
     {
@@ -38,6 +41,11 @@ public:
 
         return true;
     }
+
+    NodePtr node() { return std::shared_ptr<Node>(node_); }
+
+
+    void setParent(Entity& entity) { node_->setParent(entity.node()); }
 
     void update() { for (auto& c : components_) { c->update(); } }
     void render() { for (auto& c : components_) { c->render(); } }
@@ -74,6 +82,7 @@ public:
     }
 
 private:
+    NodePtr node_;
 
     bool active_ = true;
     std::vector<std::unique_ptr<Component>> components_;

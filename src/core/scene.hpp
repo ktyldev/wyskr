@@ -14,7 +14,8 @@ private:
     EntityComponentSystem*  ecs_;
     MaterialRepo*           materials_;
 
-    void addCubes();
+    void addCube();
+    void addTree();
     void addCamera();
 };
 

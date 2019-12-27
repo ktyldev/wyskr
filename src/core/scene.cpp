@@ -11,13 +11,31 @@ bool Scene::load(EntityComponentSystem& ecs, MaterialRepo& materials)
     ecs_        = &ecs;
     materials_  = &materials;
 
-    addCubes();
+    //addCube();
+    addTree();
     addCamera();
 
     return true;
 }
 
-void Scene::addCubes()
+void Scene::addCube()
+{
+    auto& cubeRoot = ecs_->addEntity("cube_root");
+    cubeRoot.addComponent<Transform>();
+    cubeRoot.addComponent<Rotate>();
+
+    auto& cube = ecs_->addEntity("cube");
+    auto& transform = cube.addComponent<Transform>();
+    auto& renderer = cube.addComponent<CubeRenderer>();
+    cube.setParent(cubeRoot);
+
+    std::cout << ecs_->getParent(cube)->node()->name() << std::endl;
+
+    Material& material = materials_->getMaterial("green");
+    renderer.setMaterial(material);
+}
+
+void Scene::addTree()
 {
     struct CubeData
     {
@@ -31,6 +49,10 @@ void Scene::addCubes()
     float yBase = -2.0f;
     float z = 0.0f;
     
+    auto& tree = ecs_->addEntity("tree");
+    tree.addComponent<Transform>();
+    tree.addComponent<Rotate>();
+
     cubes.push_back({ "cube_green_2_0", "green", glm::vec3(     0, yBase + 3, z) });
 
     cubes.push_back({ "cube_green_1_0", "green", glm::vec3( -0.5f, yBase + 2, z) });
@@ -46,6 +68,8 @@ void Scene::addCubes()
     {
         // create entity
         auto& entity = ecs_->addEntity(cubes[i].name);
+
+        entity.setParent(tree);
 
         // add components
         auto& transform = entity.addComponent<Transform>();
@@ -69,7 +93,7 @@ void Scene::addCubes()
 
 void Scene::addCamera()
 {
-    glm::vec3 startPos(0, 1, -2);
+    glm::vec3 startPos(1, 1, 4);
     glm::vec3 target(0, 0, 0);
 
     // create entity
@@ -78,7 +102,7 @@ void Scene::addCamera()
     // add components
     auto& transform = entity.addComponent<Transform>();
     auto& camera = entity.addComponent<Camera>();
-    entity.addComponent<CameraOrbit>();
+    //entity.addComponent<CameraOrbit>();
 
     transform.translate(startPos);
 }

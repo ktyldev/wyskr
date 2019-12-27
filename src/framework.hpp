@@ -27,6 +27,7 @@ public:
     void shutdown();
 
     const MaterialRepo& materials() const;
+    const EntityComponentSystem& entities() const;
 
 private:
     // window

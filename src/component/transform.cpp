@@ -1,4 +1,6 @@
-#include "component/transform.hpp"
+#include "transform.hpp"
+
+#include "framework.hpp"
 
 #include <stdio.h>
 #include <iostream>
@@ -24,9 +26,53 @@ Transform::Transform(glm::vec3 position, glm::quat rotation, glm::vec3 scale) :
 {
 }
 
+// update world transformation
 void Transform::update()
 {
-    updateLocal();    
+    // to get the current world transformation traverse up the
+    // roots of each parent and combine each tranform's local
+    // transformation
+
+    updateLocal();
+
+    glm::mat4 world = local_;
+    
+    const EntityComponentSystem& ecs = Framework::instance()->entities();
+
+    //std::cout << "start transform update" << std::endl;
+    
+    bool done = false;
+    Entity* current = entity();
+    Entity* parent = nullptr;
+    int depth = 0;
+    int maxDepth = 5;
+
+    while (!done)
+    {
+        parent = ecs.getParent(*current);
+        if (parent == nullptr)
+        {
+            //std::cout << "reached root node, exit recursive graph traversal" << std::endl;
+            done = true;
+            break;
+        }
+
+        depth++;
+        if (depth > maxDepth)
+        {
+            std::cout << "hit max depth, exiting to avoid crash" << std::endl;
+            done = true;
+            break;
+        }
+
+        world = parent->getComponent<Transform>().local() * world;
+
+        current = parent;
+    }
+
+    //std::cout << "end transform update" << std::endl;
+
+    world_ = world;
 }
 
 void Transform::updateLocal()

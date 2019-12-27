@@ -7,7 +7,7 @@ a lightweight game engine with the purpose of learning general engine developmen
 storing todos here temporarily until i can be bothered to organise a trello
 these are listed in approximate order of priority
 
-*   transform parenting
+*   fix transform parenting - why is it upside down
 
 *   directional light component
 *   support multiple directional lights
@@ -23,7 +23,4 @@ these are listed in approximate order of priority
 
 *   handle fullscreen window
 *   check for dependencies on startup
-
-
-
 

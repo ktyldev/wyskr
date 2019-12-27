@@ -29,6 +29,7 @@ public:
 
     // local transformation
     glm::mat4 local() const     { return local_; }
+    glm::mat4 world() const     { return world_; }
 
     //
     // SETTERS
@@ -41,6 +42,7 @@ public:
 
 private:
     glm::mat4 local_;
+    glm::mat4 world_;
 
     // local transformations
     glm::vec3 position_;

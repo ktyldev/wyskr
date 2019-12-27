@@ -7,8 +7,21 @@
 #define DEFAULT_HEIGHT  600
 #define FIELD_OF_VIEW   110
 
+Framework* instance_;
+
 Framework::Framework() : Framework(DEFAULT_WIDTH, DEFAULT_HEIGHT)
 {
+    if (instance_ != nullptr)
+    {
+        throw "multiple instances of Framework";
+    }
+
+    instance_ = this;
+}
+
+Framework* Framework::instance()
+{
+    return instance_;
 }
 
 Framework::Framework(unsigned int width, unsigned int height)
@@ -39,6 +52,11 @@ int Framework::run()
 const MaterialRepo& Framework::materials() const 
 {
     return materials_;
+}
+
+const EntityComponentSystem& Framework::entities() const
+{
+    return ecs_;
 }
 
 int Framework::mainLoop()

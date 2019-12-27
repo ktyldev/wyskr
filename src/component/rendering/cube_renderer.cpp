@@ -65,7 +65,7 @@ void CubeRenderer::render()
 
     GLint uniTrans = glGetUniformLocation(shaderProgram(), "model");
 
-    glUniformMatrix4fv(uniTrans, 1, GL_FALSE, glm::value_ptr(t.local()));
+    glUniformMatrix4fv(uniTrans, 1, GL_FALSE, glm::value_ptr(t.world()));
 
     Renderer::render();
 

@@ -47,4 +47,31 @@ public:
 
         return *e;
     }
+
+    Entity& getEntity(NodePtr node) const
+    {
+        for (auto& e : entities_)
+        {
+            if (e->node() == node)
+            {
+                return *e;
+            }
+        }
+
+        std::cout << "No entity for node " << node->name() << std::endl;
+        throw;
+    }
+
+    Entity* getParent(Entity& entity) const
+    {
+        NodePtr node = entity.node();
+        NodePtr parent = node->parent();
+
+        if (parent == nullptr)
+        {
+            return nullptr;
+        }
+
+        return &getEntity(parent);
+    }
 };
