@@ -61,10 +61,8 @@ const EntityComponentSystem& Framework::entities() const
 
 int Framework::mainLoop()
 {
-    // init context
+    // start engine clock
     Time::start();
-
-    // TODO: move SDL initialisation here
 
     // go!
     while (true)

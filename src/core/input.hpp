@@ -12,5 +12,7 @@ public:
     bool quit();
 
 private:
-    bool        quit_;
+    bool quit_;
+
+    void printKey(SDL_KeyboardEvent* key);
 };

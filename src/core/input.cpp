@@ -1,5 +1,7 @@
 #include "input.hpp"
 
+#include <iostream>
+
 Input::Input() :
     quit_(false)
 {
@@ -11,10 +13,19 @@ void Input::update()
 
     if (SDL_PollEvent(&event))
     {
-        if (event.type == SDL_QUIT)
+        switch (event.type)
         {
-            quit_ = true;
-            return;
+            case SDL_QUIT:
+                quit_ = true;
+                break;
+
+            case SDL_KEYDOWN:
+            case SDL_KEYUP:
+                printKey(&event.key); 
+                break;
+
+            default:
+                break;
         }
     }
 }
@@ -22,4 +33,18 @@ void Input::update()
 bool Input::quit()
 {
     return quit_;
+}
+
+void Input::printKey(SDL_KeyboardEvent* key)
+{
+    if (key->type == SDL_KEYDOWN)
+    {
+        std::cout << "pressed: ";
+    }
+    else 
+    {
+        std::cout << "released: ";
+    }
+
+    std::cout << SDL_GetKeyName(key->keysym.sym) << std::endl;
 }
