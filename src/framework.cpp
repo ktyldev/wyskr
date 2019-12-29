@@ -63,24 +63,26 @@ int Framework::mainLoop()
 {
     // init context
     Time::start();
-    // TODO: move SDL stuff to opengl context
-    // event loop
-    SDL_Event windowEvent;
+
+    // TODO: move SDL initialisation here
 
     // go!
     while (true)
     {
         Time::update();
 
-        // update context
-        if (SDL_PollEvent(&windowEvent))
+        // update input
+        input_.update();
+        if (input_.quit())
         {
-            if (windowEvent.type == SDL_QUIT)
-                break;
+            std::cout << "received quit event" << std::endl;
+            break;
         }
+
+        // update components
         update();
 
-        // render context
+        // render scene
         render();
     }
 
