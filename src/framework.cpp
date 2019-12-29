@@ -100,6 +100,13 @@ bool Framework::initialise()
     materials_.registerMaterial("red", "res/shader/shader.vert", "res/shader/shader.frag");
     materials_.getMaterial("red").setColour(Colour::red);
 
+    // register input keys
+    std::cout << "registering input keys" << std::endl;
+    input_.registerKey(SDLK_w);
+    input_.registerKey(SDLK_a);
+    input_.registerKey(SDLK_s);
+    input_.registerKey(SDLK_d);
+
     createContext();
     
     if (!scene_.load(ecs_, materials_))

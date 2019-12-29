@@ -4,7 +4,7 @@
 #include "core/ecs.hpp"
 #include "core/scene.hpp"
 #include "core/material_repo.hpp"
-#include "core/input.hpp"
+#include "core/keyboard_input.hpp"
 
 #include "component.h"
 
@@ -36,7 +36,7 @@ private:
     SDL_GLContext           context_;
 
     // misc :)
-    Input                   input_;
+    KeyboardInput                   input_;
     MaterialRepo            materials_;
     Scene                   scene_;
     EntityComponentSystem   ecs_;
