@@ -1,21 +1,23 @@
 #   wyskr
 
-a lightweight game engine with the purpose of learning general engine development as well as rendering libraries opengl and ncurses.
+Lightweight C++/OpenGL/SDL engine mostly for personal education purposes. Ultimate goal of supporting virtual reality development on relatively low-end hardware.
 
 ## todo
 
-storing todos here temporarily until i can be bothered to organise a trello
-these are listed in approximate order of priority
+listed in approximate order of priority
 
-*   fix transform parenting - why is it upside down
+*   bug: fix transform parenting - why is it upside down
+
+*   keyboard input
 
 *   directional light component
 *   support multiple directional lights
 *   point lights
 *   spot lights
 
-*   keyboard input
-
+*   organise include files
+*   automatic versioning
+*   more primitives
 *   load arbitrary meshes
 *   find some way to optimise shader usage - it's possible for shaders to be compiled multiple times as part of different materials
 *   make main loop framerate independent, currently relying on sdl's frame cap
