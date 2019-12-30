@@ -51,7 +51,7 @@ void Scene::addTree()
     
     auto& tree = ecs_->addEntity("tree");
     tree.addComponent<Transform>();
-    tree.addComponent<Rotate>();
+    tree.addComponent<RotationInput>();
 
     cubes.push_back({ "cube_green_2_0", "green", glm::vec3(     0, yBase + 3, z) });
 

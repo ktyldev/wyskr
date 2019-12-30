@@ -27,8 +27,10 @@ public:
     void render();
     void shutdown();
 
-    const MaterialRepo& materials() const;
-    const EntityComponentSystem& entities() const;
+    const MaterialRepo&             materials() const;
+    const EntityComponentSystem&    entities() const;
+
+    KeyboardInput&            input();
 
 private:
     // window
@@ -36,7 +38,7 @@ private:
     SDL_GLContext           context_;
 
     // misc :)
-    KeyboardInput                   input_;
+    KeyboardInput           input_;
     MaterialRepo            materials_;
     Scene                   scene_;
     EntityComponentSystem   ecs_;

@@ -46,6 +46,7 @@ int Framework::run()
     std::cout << "## loop start ##" << std::endl;
     success = mainLoop();
 
+    std::cout << "## loop done ##" << std::endl;
     return success;
 }
 
@@ -57,6 +58,11 @@ const MaterialRepo& Framework::materials() const
 const EntityComponentSystem& Framework::entities() const
 {
     return ecs_;
+}
+
+KeyboardInput& Framework::input() 
+{
+    return input_;
 }
 
 int Framework::mainLoop()
@@ -100,13 +106,6 @@ bool Framework::initialise()
     materials_.registerMaterial("red", "res/shader/shader.vert", "res/shader/shader.frag");
     materials_.getMaterial("red").setColour(Colour::red);
 
-    // register input keys
-    std::cout << "registering input keys" << std::endl;
-    input_.registerKey(SDLK_w);
-    input_.registerKey(SDLK_a);
-    input_.registerKey(SDLK_s);
-    input_.registerKey(SDLK_d);
-
     createContext();
     
     if (!scene_.load(ecs_, materials_))
@@ -142,7 +141,11 @@ void Framework::clearBackground()
 void Framework::createContext()
 {
     // load SDL modules
-    SDL_Init(SDL_INIT_VIDEO);
+    if (SDL_Init(SDL_INIT_VIDEO) != 0)
+    {
+        std::cout << "error: " << SDL_GetError() << std::endl;
+        throw;
+    }
 
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);    
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);

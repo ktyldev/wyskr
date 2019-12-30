@@ -79,7 +79,7 @@ void KeyboardInput::registerKey(SDL_Keycode key)
     registered_.push_back(k);
     pressed_.push_back(false);
 
-    std::cout << "registered key: " << name << std::endl;;
+    // std::cout << "registered key: " << name << std::endl;;
 }
 
 void KeyboardInput::handleEvent(SDL_KeyboardEvent* event)
@@ -104,7 +104,7 @@ void KeyboardInput::handleEvent(SDL_KeyboardEvent* event)
                 pressed_[i] = false;
             }
 
-            printPressed();
+            //printPressed();
         }
     }
 }

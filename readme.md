@@ -7,8 +7,9 @@ Lightweight C++/OpenGL/SDL engine mostly for personal education purposes. Ultima
 listed in approximate order of priority
 
 *   bug: fix transform parenting - why is it upside down
+*   bug: laggy after a longer run - defocusing window seems to be important?
 
-*   keyboard input
+*   refactor input into axes
 
 *   directional light component
 *   support multiple directional lights
