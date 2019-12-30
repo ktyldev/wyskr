@@ -16,6 +16,8 @@ listed in approximate order of priority
 *   point lights
 *   spot lights
 
+*   add anti-aliasing
+
 *   organise include files
 *   automatic versioning
 *   more primitives
