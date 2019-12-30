@@ -35,7 +35,7 @@ void Transform::update()
 
     updateLocal();
 
-    glm::mat4 world = local_;
+    glm::mat4 world = glm::mat4(1);
     
     const EntityComponentSystem& ecs = Framework::instance()->entities();
 
@@ -44,16 +44,20 @@ void Transform::update()
     bool done = false;
     Entity* current = entity();
     Entity* parent = nullptr;
+
+    // TODO: move to ecs class
     int depth = 0;
     int maxDepth = 5;
-
-    while (!done)
+    glm::mat4 transformations[maxDepth];
+    // iterate up the graph, storing local transformations as we go
+    for (int i = 0; i < maxDepth; ++i)
     {
+        transformations[i] = current->getComponent<Transform>().local();
+
         parent = ecs.getParent(*current);
         if (parent == nullptr)
         {
             //std::cout << "reached root node, exit recursive graph traversal" << std::endl;
-            done = true;
             break;
         }
 
@@ -61,13 +65,17 @@ void Transform::update()
         if (depth > maxDepth)
         {
             std::cout << "hit max depth, exiting to avoid crash" << std::endl;
-            done = true;
             break;
         }
 
-        world = parent->getComponent<Transform>().local() * world;
-
         current = parent;
+    }
+
+    // iterate backwards through the stored local transformations to
+    // compose a world transformation
+    for (int i = depth; i >= 0; --i)
+    {
+        world = world * transformations[i];
     }
 
     //std::cout << "end transform update" << std::endl;
@@ -81,6 +89,7 @@ void Transform::updateLocal()
     glm::mat4 rotation = glm::mat4_cast(rotation_);
     glm::mat4 scaling = glm::scale(glm::mat4(1.0f), scale_);
 
+    //local_ = rotation * scaling * translation;
     local_ = translation * rotation * scaling;
 }
 

@@ -50,8 +50,10 @@ void Scene::addTree()
     float z = 0.0f;
     
     auto& tree = ecs_->addEntity("tree");
-    tree.addComponent<Transform>();
+    auto& treeTransform = tree.addComponent<Transform>();
     tree.addComponent<RotationInput>();
+
+    treeTransform.setScale(1, 1, 1);
 
     cubes.push_back({ "cube_green_2_0", "green", glm::vec3(     0, yBase + 3, z) });
 
@@ -74,6 +76,9 @@ void Scene::addTree()
         // add components
         auto& transform = entity.addComponent<Transform>();
         auto& renderer = entity.addComponent<CubeRenderer>();
+
+        float scale = 0.9f;
+        transform.setScale(scale, scale, scale);
 
         std::string matName = cubes[i].materialName;
         if (!materials_->hasMaterial(matName))
